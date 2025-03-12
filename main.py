@@ -14,9 +14,22 @@ class Entity:
         self.width = width
         self.height = height
 
-        self.direction_line = self.canvas.create_line(x, y, x + 30 * math.cos(math.radians(self.angle)), y + 30 * math.sin(math.radians(self.angle)), fill="blue", width=2)
+        self.level = random.randint(1, 3)
 
-    
+        self.direction_line = self.canvas.create_line(x, y, x + 30 * math.cos(math.radians(self.angle)), y + 30 * math.sin(math.radians(self.angle)), fill="blue", width=2)
+        self.entities = []
+
+    def check_collision(self):
+        for other in self.entities:
+            if other is not self:
+                distance = math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
+                if distance < 50 and other.level >= self.level:  # Rayon de détection de collision
+                    self.entities.remove(self)
+                    # TODO make them disapear
+
+    def set_entities(self, entities):
+        self.entities = entities
+
     def update_position(self):
         self.angle += random.gauss(0, 15)  # Biais vers un faible changement
         self.angle %= 360  # Garder entre 0 et 360°
@@ -35,6 +48,7 @@ class Entity:
             new_x = self.x + dx
             new_y = self.y + dy
         
+        self.check_collision()
         self.canvas.move(self.circle, dx, dy)
         self.canvas.coords(self.direction_line, new_x, new_y, new_x + 30 * math.cos(math.radians(self.angle)), new_y + 30 * math.sin(math.radians(self.angle)))
         self.x, self.y = new_x, new_y
@@ -48,9 +62,12 @@ class CanvaFrame:
         self.canvas.pack()
 
         self.entities = []
-        
-        for i in range(100):
+        self.number_entities = 20
+
+        for i in range(self.number_entities):
             self.entities.append(Entity(self.canvas, random.randint(20, 1260), random.randint(20, 700)))
+        for entity in self.entities:
+            entity.set_entities(self.entities)
         
         self.running = True
         self.thread = threading.Thread(target=self.run_loop)
@@ -63,6 +80,7 @@ class CanvaFrame:
             for entity in self.entities:
                 self.canvas.after(0, entity.update_position)  # Mettre à jour depuis le thread principal
             time.sleep(1/60)  # 50ms
+
     
     def stop(self):
         self.running = False
