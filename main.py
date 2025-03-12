@@ -13,6 +13,9 @@ class Entity:
         self.circle = self.canvas.create_oval(x - 10, y - 10, x + 10, y + 10, fill="red")
         self.width = width
         self.height = height
+
+        self.direction_line = self.canvas.create_line(x, y, x + 30 * math.cos(math.radians(self.angle)), y + 30 * math.sin(math.radians(self.angle)), fill="blue", width=2)
+
     
     def update_position(self):
         self.angle += random.gauss(0, 15)  # Biais vers un faible changement
@@ -33,6 +36,7 @@ class Entity:
             new_y = self.y + dy
         
         self.canvas.move(self.circle, dx, dy)
+        self.canvas.coords(self.direction_line, new_x, new_y, new_x + 30 * math.cos(math.radians(self.angle)), new_y + 30 * math.sin(math.radians(self.angle)))
         self.x, self.y = new_x, new_y
 
 class CanvaFrame:
@@ -42,8 +46,11 @@ class CanvaFrame:
         
         self.canvas = tk.Canvas(root, width=1280, height=720, bg="black")
         self.canvas.pack()
+
+        self.entities = []
         
-        self.entities = [Entity(self.canvas, 200, 200)]
+        for i in range(100):
+            self.entities.append(Entity(self.canvas, random.randint(20, 1260), random.randint(20, 700)))
         
         self.running = True
         self.thread = threading.Thread(target=self.run_loop)
