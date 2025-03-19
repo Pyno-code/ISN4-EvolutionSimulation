@@ -8,11 +8,11 @@ class Entity:
     list_color = ["red", "blue", "green"]
 
     def __init__(self, canvas, x, y, width=1280, height=720):
-        self.level = 1
+        self.level = random.randint(1, 3)
 
         self.canvas = canvas
         self.x, self.y = x, y
-        self.speed = 4 - self.level
+        self.update_speed()
         self.angle = random.uniform(0, 360)  # Direction aléatoire
 
         self.circle = self.canvas.create_oval(x - 10*self.level, y - 10*self.level, x + 10*self.level, y + 10*self.level, fill=self.list_color[self.level-1])
@@ -23,6 +23,9 @@ class Entity:
         self.entities = []
 
         self.detection_range = (4 - self.level) * 40
+
+        self.time_last_update = time.time()
+        self.updating = False
 
 
     def check_collision(self):
@@ -47,9 +50,12 @@ class Entity:
             self.canvas.delete(self.direction_line)
 
     def update(self):
-        entities_in_scope = self.scope_detection_entity()
-        self.update_direction(entities_in_scope)
-        self.update_position()
+        if not self.updating:
+            self.updating = True
+            entities_in_scope = self.scope_detection_entity()
+            self.update_direction(entities_in_scope)
+            self.update_position()
+            self.updating = False
 
     def update_direction(self, entities_in_scope):
         if not entities_in_scope:
@@ -57,53 +63,39 @@ class Entity:
             self.angle %= 360  # Garder entre 0 et 360°
             return 
 
-        force_x, force_y = 0, 0
-        for other in entities_in_scope:
-            distance = math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
-            direction = math.atan2(other.y - self.y, other.x - self.x)
-            weight = (self.detection_range - distance) / self.detection_range  # Influence décroissante avec la distance
-            
-            if other.level < self.level:
-                force_x += math.cos(direction) * weight
-                force_y += math.sin(direction) * weight
-            else:
-                force_x -= math.cos(direction) * weight
-                force_y -= math.sin(direction) * weight
-
-        margin = 20
-        repulsion_strength = 2.0
+    def check_position_limit(self):
+        if self.x > self.width - 20:
+            self.x = self.width - 20 - 1
+        elif self.x < 20:
+            self.x = 20 + 1
         
-        if self.x < margin:
-            force_x += repulsion_strength * (margin - self.x) / margin
-        elif self.x > self.width - margin:
-            force_x -= repulsion_strength * (self.x - (self.width - margin)) / margin
-        
-        if self.y < margin:
-            force_y += repulsion_strength * (self.height - self.y) / margin
-        elif self.y > self.height - margin:
-            force_y -= repulsion_strength * (self.y - (self.height - margin)) / margin
-        
-        self.angle = math.degrees(math.atan2(force_y, force_x)) % 360
+        if self.y < 20:
+            self.y = 20 + 1
+        elif self.y > self.height - 20:
+            self.y = self.height - 20 - 1
 
     def update_position(self):
-        dx = self.speed * math.cos(math.radians(self.angle))
-        dy = self.speed * math.sin(math.radians(self.angle))
+        self.check_collision()
+        self.check_position_limit()
+
+        time_delta = time.time() - self.time_last_update
+        self.time_last_update = time.time()  # On met à jour AVANT de recalculer dx/dy
+
+
+        dx = self.speed * time_delta * math.cos(math.radians(self.angle))
+        dy = self.speed * time_delta * math.sin(math.radians(self.angle))
+
+
         new_x = self.x + dx
         new_y = self.y + dy
-        
-        # Vérification des limites
-        if not (0 + 20 < new_x < self.width - 20 and 0 + 20 < new_y < self.height - 20):
-            self.angle += 180  # Rebond
-            self.angle %= 360
-            dx = self.speed * math.cos(math.radians(self.angle))
-            dy = self.speed * math.sin(math.radians(self.angle))
-            new_x = self.x + dx
-            new_y = self.y + dy
-        
-        self.check_collision()
-        self.canvas.move(self.circle, dx, dy)
-        self.canvas.coords(self.direction_line, new_x, new_y, new_x + 30 * math.cos(math.radians(self.angle)), new_y + 30 * math.sin(math.radians(self.angle)))
-        self.x, self.y = new_x, new_y
+
+        if 20 < self.x < self.width - 20 and 20 < self.y < self.height - 20:
+            self.canvas.coords(self.circle, self.x - 10*self.level, self.y - 10*self.level, self.x + 10*self.level, self.y + 10*self.level)
+            self.canvas.coords(self.direction_line, new_x, new_y,
+                            new_x + 30 * math.cos(math.radians(self.angle)),
+                            new_y + 30 * math.sin(math.radians(self.angle)))
+            self.x += dx
+            self.y += dy
 
     def scope_detection_entity(self):
         entity_seen = []
@@ -121,7 +113,11 @@ class Entity:
             self.circle = self.canvas.create_oval(self.x - 10*self.level, self.y  - 10*self.level, self.x + 10*self.level, self.y  + 10*self.level, fill=self.list_color[self.level-1])
             self.canvas.delete(self.direction_line)
             self.direction_line = self.canvas.create_line(self.x, self.y, self.x + 30 * math.cos(math.radians(self.angle)), self.y + 30 * math.sin(math.radians(self.angle)), fill="yellow", width=2)
-            self.speed = 4 - self.level
+            self.update_speed()
             self.detection_range = (4 - self.level) * 40
+
+    def update_speed(self):
+        self.speed = (4 - self.level)*50
+
 
 

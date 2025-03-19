@@ -7,15 +7,17 @@ import time
 
 class CanvaFrame:
     def __init__(self, root):
+
+        self.number_entities = 30
+
         self.root = root
         self.root.title("Biased Random Walk")
         self.window_width = 1280
         self.window_height = 960
         self.canvas = tk.Canvas(root, width=self.window_width, height=self.window_height, bg="black")
         self.canvas.pack()
-
+        
         self.entities = []
-        self.number_entities = 100
 
         margin = 40
         for i in range(self.number_entities):
@@ -28,14 +30,30 @@ class CanvaFrame:
         self.thread.start()
         
         self.root.protocol("WM_DELETE_WINDOW", self.stop)
+        self.fps = 0
+        self.fps_fixed = 90
     
     def run_loop(self):
         while self.running:
+            print("-------------------------------------")
+            start = time.time()
             for entity in self.entities:
                 self.canvas.after(0, entity.update)  # Mettre à jour depuis le thread principal
-            time.sleep(1/60)  # 50ms
+            time.sleep(1/self.fps_fixed)
+            if time.time() - start != 0:
+                self.fps = 1/(time.time() - start)
+            else:
+                self.fps = 0
+            print("-------------------------------------")
 
+
+
+    def get_number_entity(self):
+        return len(self.entities)
     
+    def get_fps(self):
+        return self.fps
+
     def stop(self):
         self.running = False
         self.thread.join()
