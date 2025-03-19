@@ -1,0 +1,13 @@
+# Ignorer les fichiers Python compilés
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorer les fichiers générés par l'OS
+.DS_Store
+Thumbs.db
+
+# Ignorer les fichiers spécifiques à l'éditeur
+.vscode/
+.idea/
+*.swp
