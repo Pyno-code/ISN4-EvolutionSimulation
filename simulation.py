@@ -6,16 +6,15 @@ import time
 
 
 class CanvaFrame:
-    def __init__(self, root):
+    def __init__(self, root, window_width = 1280, window_height = 960):
 
         self.number_entities = 30
 
         self.root = root
-        self.root.title("Biased Random Walk")
-        self.window_width = 1280
-        self.window_height = 960
+        self.window_width = window_width
+        self.window_height = window_height
         self.canvas = tk.Canvas(root, width=self.window_width, height=self.window_height, bg="black")
-        self.canvas.pack()
+        self.canvas.pack(expand=True, fill="x")
         
         self.entities = []
 
@@ -29,7 +28,6 @@ class CanvaFrame:
         self.thread = threading.Thread(target=self.run_loop)
         self.thread.start()
         
-        self.root.protocol("WM_DELETE_WINDOW", self.stop)
         self.fps = 0
         self.fps_fixed = 90
     

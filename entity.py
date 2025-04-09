@@ -8,7 +8,7 @@ class Entity:
     list_color = ["red", "blue", "green"]
 
     def __init__(self, canvas, x, y, width=1280, height=720):
-        self.level = random.randint(1, 3)
+        self.level = random.randint(1, 1)
 
         self.canvas = canvas
         self.x, self.y = x, y
@@ -58,10 +58,32 @@ class Entity:
             self.updating = False
 
     def update_direction(self, entities_in_scope):
-        if not entities_in_scope:
-            self.angle += random.gauss(0, 15)  # Biais vers un faible changement
-            self.angle %= 360  # Garder entre 0 et 360°
-            return 
+        self.angle += random.gauss(0, 15)  # Biais vers un faible changement
+        self.angle %= 360  # Garder entre 0 et 360°
+        
+        for entity in entities_in_scope:
+            dx = entity.x - self.x
+            dy = entity.y - self.y
+            distance = math.sqrt(dx**2 + dy**2) + 1e-6  # Évite la division par zéro
+            direction_angle = math.degrees(math.atan2(dy, dx))
+
+            level_difference = self.level - entity.level
+            weight = abs(level_difference) / (distance**2)  # Poids basé sur la différence de niveau et la distance
+            
+            attract_x, attract_y = 0, 0
+
+            if level_difference > 0:
+                # Attirance proportionnelle à la différence de niveau
+                attract_x += weight * math.cos(direction_angle)
+                attract_y += weight * math.sin(direction_angle)
+            elif level_difference < 0:
+                # Répulsion proportionnelle à la différence de niveau
+                attract_x -= weight * math.cos(direction_angle)
+                attract_y -= weight * math.sin(direction_angle)
+        else:
+            return
+
+        self.angle = math.degrees(math.atan2(attract_y, attract_x)) % 360  # Nouvelle direction
 
     def check_position_limit(self):
         if self.x > self.width - 20:

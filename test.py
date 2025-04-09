@@ -1,19 +1,14 @@
-from simulation import CanvaFrame
 import tkinter as tk
-import time
-import random
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from simulation import CanvaFrame
 
-
-class SimulationApp:
+class TestAppStructure:
     def __init__(self, root):
         self.root = root
         self.root.title("Simulation Interface")
 
 
         screen_width = self.root.winfo_screenwidth()
-        screen_height = self.root.winfo_screenheight() - 40
+        screen_height = self.root.winfo_screenheight()
         
         # Définir la fenêtre à la taille de l'écran
         self.root.geometry(f"{screen_width}x{screen_height}+0+0")
@@ -31,6 +26,7 @@ class SimulationApp:
         self.center_frame = tk.Frame(self.root, bg="white")
         self.center_frame.grid(row=0, column=1, sticky="nsew")
 
+
         # Partie droite : Paramètres
         self.right_frame = tk.Frame(self.root, bg="lightgray")
         self.right_frame.grid(row=0, column=2, sticky="nsew")
@@ -39,8 +35,11 @@ class SimulationApp:
         tk.Label(self.right_frame, text="Infos & Graphiques", bg="lightgray").pack(pady=10)
         tk.Label(self.center_frame, text="Simulation", bg="white").pack(pady=10)
         tk.Label(self.left_frame, text="Paramètres", bg="lightgray").pack(pady=10)
-   
-        self.canvas_frame = CanvaFrame(self.center_frame, int(screen_width*3/5), screen_height)
-        
-        
-    
+
+
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = TestAppStructure(root)
+    root.mainloop()
