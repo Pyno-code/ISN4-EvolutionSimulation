@@ -4,7 +4,7 @@ import numpy as np
 from entity import Entity
 from nourriture import Nourriture
 
-def Simulation():
+class Simulation():
     def __init__(self, fps=60):
         self.start_time = time.time()
         self.entities = []
