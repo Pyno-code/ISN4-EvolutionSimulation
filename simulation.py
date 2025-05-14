@@ -2,14 +2,13 @@ import time
 import random
 import numpy as np
 from entity import Entity
-from nourriture import Food
-# This script simulates a simple environment where entities can move around and interact with food.
+from nourriture import Nourriture
 
 def Simulation():
     def __init__(self, fps=60):
         self.start_time = time.time()
         self.entities = []
-        self.foods = []
+        self.nourritures = []
         self.data = []
         self.fps = fps
         self.time_step = 1 / fps
@@ -19,8 +18,8 @@ def Simulation():
     def add_entity(self, entity):
         self.entities.append(entity)
     
-    def add_food(self, food):
-        self.foods.append(food)
+    def add_nourriture(self, nourriture):
+        self.nourritures.append(nourriture)
     
     def updade_entity(self):
         for entity in self.entity:
@@ -56,6 +55,6 @@ def Simulation():
 if __name__ == "__main__":
     sim = Simulation(fps=30)
     sim.add_entity(Entity(id=1, level=1, position=[0, 0]))
-    sim.add_food(Food(position=[5, 5]))
+    sim.add_nourriture(Nourriture(position=[5, 5]))
     sim.run_simulation(duration=10)
     sim.save_data()
