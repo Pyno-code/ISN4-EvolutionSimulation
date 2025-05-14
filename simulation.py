@@ -9,7 +9,7 @@ class Simulation():
         self.start_time = time.time()
         self.entities = []
         self.nourritures = []
-        self.data = []
+        self.data = {s}
         self.fps = fps
         self.time_step = 1 / fps
         self.running = True
