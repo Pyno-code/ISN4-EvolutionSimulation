@@ -1,9 +1,7 @@
-from simulation import CanvaFrame
+from app2 import App
 import tkinter as tk
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = CanvaFrame(root)
-    root.mainloop()
-
+    app = App()
+    app.run()
 
