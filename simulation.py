@@ -13,6 +13,7 @@ def Simulation():
         self.fps = fps
         self.time_step = 1 / fps
         self.running = True
+        self.loop = 0
 
 
     def add_entity(self, entity):
@@ -26,7 +27,7 @@ def Simulation():
             entity.update()
             
     def record_data(self):
-        current_time = time.time() - self.start_time
+        current_time = self.loop * self.time_step
         
     def pause(self):
         self.running = False
@@ -34,6 +35,13 @@ def Simulation():
     def resume(self):
         self.running = True
 
+    def stop(self):
+        self.running = False
+        self.save_data()
+
+    def change_fps(self, fps):
+        self.fps = fps
+        self.time_step = 1 / fps
 
     def update(self):
         last_time = time.time()
@@ -42,6 +50,7 @@ def Simulation():
                 last_time = time.time()
                 self.update_entity()
                 self.record_data()
+                self.loop += 1
 
     def save_data(self):
         with open('simulation_data.txt', 'w') as f:
