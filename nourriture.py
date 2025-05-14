@@ -5,7 +5,7 @@ class Nourriture:
         self.id = id
         self.type = "Nourriture"
         self.size = 1
-        self.color = make_color()
+        self.color = self.make_color()
 
     def make_color(self):
-        return x
+        return (90 + int((255-90) * (self.energie/15)**1.7), 255, 93)
