@@ -7,8 +7,9 @@ class Entity:
     
     list_color = ["red", "blue", "green"]
 
-    def __init__(self, canvas, x, y, width=1280, height=720):
-        self.level = random.randint(1, 1)
+    def __init__(self, id, canvas, x, y, width=1280, height=720, level=random.randint(1, 3)):
+        self.id = id
+        self.level = level%4
 
         self.canvas = canvas
         self.x, self.y = x, y
@@ -20,12 +21,16 @@ class Entity:
         self.height = height
 
         self.direction_line = self.canvas.create_line(x, y, x + 30 * math.cos(math.radians(self.angle)), y + 30 * math.sin(math.radians(self.angle)), fill="yellow", width=2)
+        
         self.entities = []
+        self.nourritures = []
 
         self.detection_range = (4 - self.level) * 40
 
         self.time_last_update = time.time()
         self.updating = False
+
+        self.exist = True
 
 
     def check_collision(self):
@@ -39,15 +44,24 @@ class Entity:
                     else:
                         other.delete()
                         self.update_level()
+        for nourriture in self.nourritures:
+            distance = math.sqrt((self.x - nourriture.x) ** 2 + (self.y - nourriture.y) ** 2)
+            if distance < 50:
+                self.update_level()
+                nourriture.delete()
 
     def set_entities(self, entities):
         self.entities = entities
+
+    def set_nourritures(self, nourritures):
+        self.nourritures = nourritures
 
     def delete(self):
         if self in self.entities:
             self.entities.remove(self)
             self.canvas.delete(self.circle)
             self.canvas.delete(self.direction_line)
+            self.exist = False
 
     def update(self):
         if not self.updating:
@@ -140,6 +154,3 @@ class Entity:
 
     def update_speed(self):
         self.speed = (4 - self.level)*50
-
-
-

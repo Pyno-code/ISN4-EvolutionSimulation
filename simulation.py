@@ -3,13 +3,14 @@ import random
 import numpy as np
 from entity import Entity
 from nourriture import Nourriture
+from tkinter import Canvas
 
 class Simulation():
     def __init__(self, fps=60):
         self.start_time = time.time()
         self.entities = []
         self.nourritures = []
-        self.data = []
+        self.data = {}
         self.fps = fps
         self.time_step = 1 / fps
         self.running = True
@@ -18,13 +19,18 @@ class Simulation():
 
     def add_entity(self, entity):
         self.entities.append(entity)
-    
+
     def add_nourriture(self, nourriture):
         self.nourritures.append(nourriture)
+        for entity in self.entities:
+            entity.set_nourritures(self.nourritures)
     
-    def updade_entity(self):
-        for entity in self.entity:
-            entity.update()
+    def update_entity(self):
+        for entity in self.entities:
+            if entity.exist:
+                entity.update()
+            else:
+                self.entities.remove(entity)
             
     def record_data(self):
         current_time = self.loop * self.time_step
@@ -43,7 +49,9 @@ class Simulation():
         self.fps = fps
         self.time_step = 1 / fps
 
-    def update(self):
+    def run_simulation(self, duration):
+        self.duration = duration
+        first_time = time.time()
         last_time = time.time()
         while self.running:
             if time.time() - last_time >= self.time_step:
@@ -51,6 +59,8 @@ class Simulation():
                 self.update_entity()
                 self.record_data()
                 self.loop += 1
+                if last_time - first_time >= duration:
+                    self.running = False
 
     def save_data(self):
         with open('simulation_data.txt', 'w') as f:
@@ -58,8 +68,9 @@ class Simulation():
                 f.write(f"{entry}\n")
 
 if __name__ == "__main__":
+    canvas = Canvas()
     sim = Simulation(fps=30)
-    sim.add_entity(Entity(id=1, level=1, position=[0, 0]))
-    sim.add_nourriture(Nourriture(position=[5, 5]))
+    sim.add_entity(Entity(id=1, canvas=canvas, x=10, y=50, level=2))
+    sim.add_nourriture(Nourriture(id=1, canvas=canvas, x=100, y=100))
     sim.run_simulation(duration=10)
     sim.save_data()
