@@ -1,14 +1,15 @@
 import tkinter as tk
 
-class SimulationInterface:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Interface de simulation")
-        self.root.state("zoomed")
+class Interface(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.running = True
+        self.title("Interface de simulation")
+        self.state("zoomed")
         self.couleur_bande = "#efeff2"
 
         self.creer_interfaces()
-        self.root.bind("<Configure>", self.ajuster_bouton_quitter)
+        self.bind("<Configure>", self.ajuster_bouton_quitter)
 
     def creer_interfaces(self):
         self.creer_bande_gauche()
@@ -17,7 +18,7 @@ class SimulationInterface:
         self.creer_bande_bas()
 
     def creer_bande_gauche(self):
-        self.interf_gauche = tk.Frame(self.root, width=240, bg=self.couleur_bande)
+        self.interf_gauche = tk.Frame(self, width=240, bg=self.couleur_bande)
         self.interf_gauche.pack(side="left", fill="y")
 
         self.zone_infos = tk.Label(self.interf_gauche, text="Infos de simulation", anchor="nw", justify="left")
@@ -42,7 +43,7 @@ class SimulationInterface:
         self.bouton_enregistrement = tk.Button(self.interf_gauche, text="Enregistrer l'expérience")
         self.bouton_enregistrement.place(x=10, y=360, width=220, height=30)
 
-        self.bouton_quitter = tk.Button(self.interf_gauche, text="Quitter l'interface", command=self.root.quit)
+        self.bouton_quitter = tk.Button(self.interf_gauche, text="Quitter l'interface", command=self.quit)
         self.bouton_quitter.place(x=10, y=0, width=220, height=30)
 
     def ajuster_bouton_quitter(self, event):
@@ -50,15 +51,15 @@ class SimulationInterface:
         self.bouton_quitter.place_configure(y=hauteur_gauche - 50)
 
     def creer_bande_droite(self):
-        self.interf_droite = tk.Frame(self.root, width=250, bg=self.couleur_bande)
+        self.interf_droite = tk.Frame(self, width=250, bg=self.couleur_bande)
         self.interf_droite.pack(side="right", fill="y")
 
     def creer_zone_centrale(self):
-        self.centre = tk.Frame(self.root, bg="white")
+        self.centre = tk.Frame(self, bg="white")
         self.centre.pack(expand=True, fill="both")
 
     def creer_bande_bas(self):
-        self.interf_bas = tk.Frame(self.root, height=150, bg="#f0f0f0")
+        self.interf_bas = tk.Frame(self, height=150, bg="#f0f0f0")
         self.interf_bas.pack(side="bottom", fill="x")
 
         self.zone_sliders = tk.Frame(self.interf_bas, bg="#f0f0f0")
@@ -101,8 +102,16 @@ class SimulationInterface:
         pourcentage = int(float(val))
         self.label_valeur_vitesse.config(text=f"{pourcentage} %")
 
+    def update(self):
+        super().update()
+    
+    def on_close(self):
+        self.simulation.stop()
+        self.destroy()
+        self.running = False
+
+
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = SimulationInterface(root)
-    root.mainloop()
+    app = Interface()
+    app.mainloop()
