@@ -1,9 +1,10 @@
 import tkinter as tk
 
 class Interface(tk.Tk):
-    def __init__(self):
+    def __init__(self, simulation):
         super().__init__()
         self.running = True
+        self.simulation = simulation
         self.title("Interface de simulation")
         self.state("zoomed")
         self.couleur_bande = "#efeff2"

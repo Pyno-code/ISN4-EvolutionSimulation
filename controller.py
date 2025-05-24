@@ -4,7 +4,7 @@ from app import Interface
 class Controller:
     def __init__(self):
         self.simulation = Simulation()
-        self.app = Interface()
+        self.app = Interface(self.simulation)
         self.running = True
 
     def update(self):
@@ -13,7 +13,6 @@ class Controller:
 
     def run(self):
         while self.running:
-            self.running = self.app.running and self.simulation.running
             self.update()
             
     

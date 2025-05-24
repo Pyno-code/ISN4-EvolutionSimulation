@@ -16,6 +16,54 @@ class Simulation():
         self.running = True
         self.loop = 0
 
+        self.number_entity = 0
+        self.number_nourriture = 0
+
+        self.height = 0
+        self.width = 0
+
+
+    def start(self):
+        self.initialize()
+        self.data = {}
+        self.loop = 0
+        self.start_time = time.time()
+        self.running = True
+
+    def initialize(self):
+        self.start_time = time.time()
+        self.entities = []
+        self.nourritures = []
+        self.data = {}
+        self.running = True
+        self.loop = 0
+
+        self.number_entity = 0
+        self.number_nourriture = 0
+
+        self.height = 0
+        self.width = 0
+
+    def reset(self):
+        self.initialize()
+        self.data = {}
+        self.loop = 0
+        self.start_time = time.time()
+        self.running = False
+    
+    def update_fps(self, fps):
+        self.fps = fps
+        self.time_step = 1 / fps
+    
+    def update_number_entity(self, number):
+        self.number_entity = number
+
+    def updaate_number_nourriture(self, number):
+        self.number_nourriture = number
+
+    def self_update_map_dimensions(self, width, height):
+        self.width = width
+        self.height = height
 
     def update(self):
         pass
