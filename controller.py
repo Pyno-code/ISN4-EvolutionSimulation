@@ -15,7 +15,6 @@ class Controller:
         while self.running:
             self.update()
 
-
 if __name__ == "__main__":
     controller = Controller()
     controller.run()
