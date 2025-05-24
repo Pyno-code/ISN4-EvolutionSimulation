@@ -25,43 +25,27 @@ class Simulation():
 
         self.current_time = 0
 
+        self.start_time = time.time() # doit disparaitre
+
 
     def get_time(self):
-        return self.current_time
+        # return self.current_time
+        return (time.time() - self.start_time) / 1000
 
     def get_fps(self):
         return self.fps
     
     def get_number_entity(self):
-        return len(self.entities)
+        # return len(self.entities)
+        return random.randint(0, 100)
     
     def get_number_nourriture(self):
-        return len(self.nourritures)
+        # return len(self.nourritures)
+        return random.randint(0, 100)
 
-    def start(self):
-        pass
+    def get_map_dimensions(self):
+        return self.width, self.height
 
-    def initialize(self):
-        self.initialize_entities()
-        self.initialize_nourritures()
-
-    def reset(self):
-        pass
-
-    def initialize_time(self):
-        self.current_time = 0
-
-
-    def initialize_entities(self):
-        while len(self.entities) < self.number_entity:
-            current_entity = Entity(id=self.number_entity, canvas=None, x=random.randint(0, self.width), y=random.randint(0, self.height), level=1)
-            self.add_entity(current_entity)
-
-    def initialize_nourritures(self):
-        while len(self.nourritures) < self.number_nourriture:
-            current_nourriture = Nourriture(id=self.number_nourriture, canvas=None, x=random.randint(0, self.width), y=random.randint(0, self.height))
-            self.add_nourriture(current_nourriture)
-    
     def update_fps(self, fps):
         self.fps = fps
         self.time_step = 1 / fps
@@ -76,27 +60,51 @@ class Simulation():
         self.width = width
         self.height = height
 
+
+    def start(self):
+        pass
+
+    def initialize(self):
+        self.initialize_entities()
+        self.initialize_nourritures()
+
+    def reset(self):
+        pass
+
+
+    def initialize_time(self):
+        self.current_time = 0
+
+    def initialize_entities(self):
+        while len(self.entities) < self.number_entity:
+            self.add_entity()
+
+    def initialize_nourritures(self):
+        while len(self.nourritures) < self.number_nourriture:
+            self.add_nourriture()
+
+    def add_entity(self):
+        current_entity = Entity(id=self.number_entity, canvas=None, x=random.randint(0, self.width), y=random.randint(0, self.height), level=1)
+        self.entities.append(current_entity)
+
+    def add_nourriture(self):
+        current_nourriture = Nourriture(id=self.number_nourriture, canvas=None, x=random.randint(0, self.width), y=random.randint(0, self.height))
+        self.nourritures.append(current_nourriture)
+        for entity in self.entities:
+            entity.set_nourritures(self.nourritures)
+    
+    def update_entity(self):
+        for entity in self.entities:
+            if entity.exist:
+                entity.update()
+            else:
+                self.entities.remove(entity)
+        
     def update(self):
         if self.running:
             self.update_entity()
             self.record_data()
             self.number_loop += 1
-
-    def add_entity(self, entity):
-        self.entities.append(entity)
-
-    def add_nourriture(self, nourriture):
-        self.nourritures.append(nourriture)
-        for entity in self.entities:
-            entity.set_nourritures(self.nourritures)
-    
-    def update_entity(self):
-        """for entity in self.entities:
-            if entity.exist:
-                entity.update()
-            else:
-                self.entities.remove(entity)"""
-            
             
     def record_data(self):
         current_time = self.number_loop * self.time_step
