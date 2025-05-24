@@ -27,25 +27,26 @@ class Simulation():
 
 
     def get_time(self):
-        return self
+        return self.current_time
+
+    def get_fps(self):
+        return self.fps
+    
+    def get_number_entity(self):
+        return len(self.entities)
+    
+    def get_number_nourriture(self):
+        return len(self.nourritures)
 
     def start(self):
-        self.initialize()
-        self.data = {}
-        self.number_loop = 0
-        self.start_time = time.time()
-        self.running = True
+        pass
 
     def initialize(self):
         self.initialize_entities()
         self.initialize_nourritures()
 
     def reset(self):
-        self.initialize()
-        self.data = {}
-        self.number_loop = 0
-        self.start_time = time.time()
-        self.running = False
+        pass
 
     def initialize_time(self):
         self.current_time = 0
