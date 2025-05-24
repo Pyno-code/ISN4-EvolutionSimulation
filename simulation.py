@@ -27,10 +27,17 @@ class Simulation():
 
         self.start_time = time.time() # doit disparaitre
 
+        self.running = False
+        self.initialized = False
+
+
 
     def get_time(self):
         # return self.current_time
         return (time.time() - self.start_time) / 1000
+    
+    def get_current_time(self):
+        return self.current_time
 
     def get_fps(self):
         return self.fps
@@ -60,17 +67,9 @@ class Simulation():
         self.width = width
         self.height = height
 
-
-    def start(self):
-        pass
-
     def initialize(self):
         self.initialize_entities()
         self.initialize_nourritures()
-
-    def reset(self):
-        pass
-
 
     def initialize_time(self):
         self.current_time = 0
@@ -92,7 +91,9 @@ class Simulation():
         self.nourritures.append(current_nourriture)
         for entity in self.entities:
             entity.set_nourritures(self.nourritures)
-    
+
+
+
     def update_entity(self):
         for entity in self.entities:
             if entity.exist:
@@ -109,32 +110,17 @@ class Simulation():
     def record_data(self):
         current_time = self.number_loop * self.time_step
         
+
     def pause(self):
         self.running = False
 
     def resume(self):
-        self.running = True
+        self.running = False
+        self.initialized = True
 
     def stop(self):
         self.running = False
-        self.save_data()
-
-    def change_fps(self, fps):
-        self.fps = fps
-        self.time_step = 1 / fps
-
-    def run_simulation(self, duration):
-        self.duration = duration
-        first_time = time.time()
-        last_time = time.time()
-        while self.running:
-            if time.time() - last_time >= self.time_step:
-                last_time = time.time()
-                self.update_entity()
-                self.record_data()
-                self.number_loop += 1
-                if last_time - first_time >= duration:
-                    self.running = False
+        self.initialized = False
 
     def save_data(self):
         with open('simulation_data.txt', 'w') as f:
