@@ -61,9 +61,9 @@ class Application(tk.Tk):
         if not self.running:
             return
 
-        t = self.simulation.start_time
+        t = self.simulation.current_time
         self.x_data.append(t)
-        self.y_data.append(len(self.simulation.number_entity))
+        self.y_data.append(len(self.simulation.entities))
 
         if t>10:
             self.ax.set_xlim(t - 10, t)
@@ -71,8 +71,7 @@ class Application(tk.Tk):
         self.line.set_data(self.x_data, self.y_data)
         self.canvas.draw()
 
-        self.frame_count += 1
-        self.after(50, self.update_graph) # remplacer 50 par le temps récupérer dans la classe simulation
+        self.after(50, self.update_graph) # remplacer 50 par le temps récupérer dans la classe simulation ou choisir arbitrairement
 
     def save_graph(self):
         file_path = filedialog.asksaveasfilename(
