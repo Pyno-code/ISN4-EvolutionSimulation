@@ -17,6 +17,9 @@ class Simulation():
         self.loop = 0
 
 
+    def update(self):
+        pass
+
     def add_entity(self, entity):
         self.entities.append(entity)
 

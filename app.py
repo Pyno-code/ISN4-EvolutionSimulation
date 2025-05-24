@@ -10,6 +10,8 @@ class Interface(tk.Tk):
 
         self.creer_interfaces()
         self.bind("<Configure>", self.ajuster_bouton_quitter)
+        self.protocol("WM_DELETE_WINDOW", self.on_close)
+
 
     def creer_interfaces(self):
         self.creer_bande_gauche()
@@ -43,7 +45,7 @@ class Interface(tk.Tk):
         self.bouton_enregistrement = tk.Button(self.interf_gauche, text="Enregistrer l'expérience")
         self.bouton_enregistrement.place(x=10, y=360, width=220, height=30)
 
-        self.bouton_quitter = tk.Button(self.interf_gauche, text="Quitter l'interface", command=self.quit)
+        self.bouton_quitter = tk.Button(self.interf_gauche, text="Quitter l'interface", command=self.on_close)
         self.bouton_quitter.place(x=10, y=0, width=220, height=30)
 
     def ajuster_bouton_quitter(self, event):
@@ -106,7 +108,6 @@ class Interface(tk.Tk):
         super().update()
     
     def on_close(self):
-        self.simulation.stop()
         self.destroy()
         self.running = False
 
