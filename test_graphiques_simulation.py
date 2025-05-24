@@ -9,20 +9,18 @@ import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from simulation import Simulation
-
 matplotlib.use("TkAgg")
 
 class Application(tk.Tk):
-    def __init__(self, simulation: Simulation = Simulation()):
+    def __init__(self, simulation):
         super().__init__()
-        
+        self.simulation = simulation
         self.title("Evolution de population")
         self.geometry("800x600")
 
         # Données
         self.x_data = []
         self.y_data = []
-        self.frame_count = 0
         self.running = False
 
         # Figure matplotlib
@@ -30,9 +28,9 @@ class Application(tk.Tk):
         self.line, = self.ax.plot([], [], lw=2)
         self.ax.set_xlim(0, 10)
         self.ax.set_ylim(-1.5, 1.5)
-        self.ax.set_title("Évolution sinusoïdale")
+        self.ax.set_title("Évolution de la population")
         self.ax.set_xlabel("Temps")
-        self.ax.set_ylabel("Amplitude")
+        self.ax.set_ylabel("Nombre d'individus")
 
         # Intégration dans Tkinter
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
@@ -63,11 +61,11 @@ class Application(tk.Tk):
         if not self.running:
             return
 
-        t = self.frame_count * 0.1
+        t = self.simulation.start_time
         self.x_data.append(t)
-        self.y_data.append(self.simulation.number_entity)
+        self.y_data.append(len(self.simulation.number_entity))
 
-        if t > 10:
+        if t>10:
             self.ax.set_xlim(t - 10, t)
 
         self.line.set_data(self.x_data, self.y_data)
