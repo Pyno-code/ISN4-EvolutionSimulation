@@ -8,14 +8,14 @@ import numpy as np
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
-import simulation as simulation
+from simulation import Simulation
 
 matplotlib.use("TkAgg")
 
 class Application(tk.Tk):
-    def __init__(self):
+    def __init__(self, simulation: Simulation = Simulation()):
         super().__init__()
-
+        
         self.title("Evolution de population")
         self.geometry("800x600")
 
@@ -65,7 +65,7 @@ class Application(tk.Tk):
 
         t = self.frame_count * 0.1
         self.x_data.append(t)
-        self.y_data.append(simulation.number_entity)
+        self.y_data.append(self.simulation.number_entity)
 
         if t > 10:
             self.ax.set_xlim(t - 10, t)
@@ -87,5 +87,5 @@ class Application(tk.Tk):
             print(f"Graphique sauvegardé sous : {file_path}")
 
 if __name__ == "__main__":
-    app = Application()
+    app = Application(Simulation())
     app.mainloop()
