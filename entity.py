@@ -5,32 +5,30 @@ import tkinter as tk
 
 class Entity:
     
-    list_color = ["red", "blue", "green"]
 
-    def __init__(self, id, canvas, x, y, width=1280, height=720, level=random.randint(1, 3)):
+    def __init__(self, id, width, height, x=0, y=0, pos_random = True, level=random.randint(1, 3)):
         self.id = id
-        self.level = level%4
+        self.level = level
+        
+        if pos_random:
+            self.x, self.y = random.randint(20, width - 20), random.randint(20, height - 20)
+        else:
+            self.x, self.y = x, y
 
-        self.canvas = canvas
-        self.x, self.y = x, y
         self.update_speed()
         self.angle = random.uniform(0, 360)  # Direction aléatoire
 
-        self.circle = self.canvas.create_oval(x - 10*self.level, y - 10*self.level, x + 10*self.level, y + 10*self.level, fill=self.list_color[self.level-1])
         self.width = width
         self.height = height
 
-        self.direction_line = self.canvas.create_line(x, y, x + 30 * math.cos(math.radians(self.angle)), y + 30 * math.sin(math.radians(self.angle)), fill="yellow", width=2)
         
         self.entities = []
         self.nourritures = []
 
         self.detection_range = (4 - self.level) * 40
 
-        self.time_last_update = time.time()
-        self.updating = False
-
         self.exist = True
+        self.updating = False
 
 
     def check_collision(self):
@@ -59,17 +57,16 @@ class Entity:
     def delete(self):
         if self in self.entities:
             self.entities.remove(self)
-            self.canvas.delete(self.circle)
-            self.canvas.delete(self.direction_line)
             self.exist = False
 
     def update(self):
-        if not self.updating:
-            self.updating = True
-            entities_in_scope = self.scope_detection_entity()
-            self.update_direction(entities_in_scope)
-            self.update_position()
-            self.updating = False
+        # if not self.updating:
+        #     self.updating = True
+        #     entities_in_scope = self.scope_detection_entity()
+        #     self.update_direction(entities_in_scope)
+        #     self.update_position()
+        #     self.updating = False
+        pass
 
     def update_direction(self, entities_in_scope):
         self.angle += random.gauss(0, 15)  # Biais vers un faible changement
@@ -145,10 +142,6 @@ class Entity:
     def update_level(self):
         if self.level < 3:
             self.level += 1
-            self.canvas.delete(self.circle)
-            self.circle = self.canvas.create_oval(self.x - 10*self.level, self.y  - 10*self.level, self.x + 10*self.level, self.y  + 10*self.level, fill=self.list_color[self.level-1])
-            self.canvas.delete(self.direction_line)
-            self.direction_line = self.canvas.create_line(self.x, self.y, self.x + 30 * math.cos(math.radians(self.angle)), self.y + 30 * math.sin(math.radians(self.angle)), fill="yellow", width=2)
             self.update_speed()
             self.detection_range = (4 - self.level) * 40
 
