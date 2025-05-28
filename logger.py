@@ -4,7 +4,7 @@ import os
 
 class SimulationLogger:
     def __init__(self, sim_number: int, timestep: float = 1/60):
-        filename = f"simulations/simulation_{sim_number:03d}.h5"
+        filename = f"/files/simulations/simulation_{sim_number:03d}.h5"
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         self.file = h5py.File(filename, "w", libver='latest')
         self.file.swmr_mode = True
