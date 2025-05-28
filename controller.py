@@ -1,5 +1,5 @@
-from simulation import Simulation
-from app import Interface 
+from simulation.simulation import Simulation
+from interface.app import Interface 
 
 class Controller:
     def __init__(self):

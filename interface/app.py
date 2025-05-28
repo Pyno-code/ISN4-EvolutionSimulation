@@ -1,10 +1,10 @@
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
-from simulation import Simulation
-from entity import Entity
-from nourriture import Nourriture
+from simulation.simulation import Simulation
+from simulation.entity import Entity
+from simulation.nourriture import Nourriture
 
-class SimulationInterface:
+class Interface:
     def __init__(self, root):
         self.root = root
         self.root.title("Simulation Évolutive (Vista-style theme)")
@@ -223,5 +223,5 @@ class SimulationInterface:
 
 if __name__ == "__main__":
     root = ttk.Window(themename="flatly")
-    app = SimulationInterface(root)
+    app = Interface(root)
     root.mainloop()
