@@ -8,12 +8,10 @@ from simulation.simulation import Simulation
 
 matplotlib.use("TkAgg")
 
-class Application(tk.Tk):
-    def __init__(self, simulation):
+class Application:
+    def __init__(self, root, simulation): # root c'est le parent, où on enregistre les graphiques
         super().__init__()
         self.simulation = simulation
-        self.title("Évolution de population")
-        self.geometry("800x600")
 
         # Données
         self.x_data = []
@@ -26,7 +24,7 @@ class Application(tk.Tk):
         self.rowconfigure(0, weight=1)
 
         # Frame principale
-        main_frame = ttk.Frame(self)
+        main_frame = ttk.Frame(root)
         main_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
         main_frame.columnconfigure((0, 1, 2), weight=1)  # Colonnes boutons
         main_frame.rowconfigure(0, weight=1)  # Ligne du graphique
@@ -45,27 +43,10 @@ class Application(tk.Tk):
         self.canvas_widget = self.canvas.get_tk_widget()
         self.canvas_widget.grid(row=0, column=0, columnspan=3, sticky="nsew", pady=(0, 10))
 
-        # Boutons
-        self.start_button = ttk.Button(main_frame, text="Démarrer", command=self.start_animation)
-        self.start_button.grid(row=1, column=0, padx=5, pady=5)
-
-        self.stop_button = ttk.Button(main_frame, text="Arrêter", command=self.stop_animation)
-        self.stop_button.grid(row=1, column=1, padx=5, pady=5)
-
         self.save_button = ttk.Button(main_frame, text="Télécharger le graphique", command=self.save_graph)
         self.save_button.grid(row=1, column=2, padx=5, pady=5)
 
-    def start_animation(self):
-        if not self.running:
-            self.running = True
-            self.update_graph()
-
-    def stop_animation(self):
-        self.running = False
-
     def update_graph(self):
-        if not self.running:
-            return
 
         # Simulation du temps et des données
         t = self.frame_count * 0.1  # Remplacer par self.simulation.get_time() dans ta version finale
@@ -78,7 +59,7 @@ class Application(tk.Tk):
         self.line.set_data(self.x_data, self.y_data)
         self.canvas.draw()
 
-        self.frame_count += 1
+        self.frame_count += 1 #à enelver car récup le temps depuis la simulation
         self.after(50, self.update_graph)
 
     def save_graph(self):
@@ -91,6 +72,4 @@ class Application(tk.Tk):
             self.fig.savefig(file_path)
             print(f"Graphique sauvegardé sous : {file_path}")
 
-if __name__ == "__main__":
-    app = Application(Simulation())
-    app.mainloop()
+
