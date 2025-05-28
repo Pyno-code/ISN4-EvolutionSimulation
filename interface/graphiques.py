@@ -41,7 +41,7 @@ class Application:
         # Intégration du graphique dans Tkinter
         self.canvas = FigureCanvasTkAgg(self.fig, master=main_frame)
         self.canvas_widget = self.canvas.get_tk_widget()
-        self.canvas_widget.grid(row=0, column=0, columnspan=3, sticky="nsew", pady=(0, 10))
+        self.canvas_widget.grid(row=0, column=3, sticky="nsew", pady=(0, 10))
 
         self.save_button = ttk.Button(main_frame, text="Télécharger le graphique", command=self.save_graph)
         self.save_button.grid(row=1, column=2, padx=5, pady=5)

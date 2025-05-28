@@ -124,7 +124,7 @@ class Simulation():
 
 
     
-    def record_entities(self, entity):
+    def record_entities(self, entity): # permet d'enregeistrer toutes les postions dans le logger
         self.logger.add_entity(entity_id=entity.id, position=[entity.x, entity.y], level=entity.level)
         
     def record_nouritures(self, nourriture):
@@ -141,7 +141,7 @@ class Simulation():
         self.running = False
         self.initialized = False
 
-    def save_data(self):
+    def save_data(self):  
         with open('simulation_data.txt', 'w') as f:
             for entry in self.data:
                 f.write(f"{entry}\n")
