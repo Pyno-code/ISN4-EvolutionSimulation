@@ -32,7 +32,7 @@ class Simulation():
         self.initialized = False
 
 
-        self.logger = SimulationLogger(sim_number=1)
+        # self.logger = SimulationLogger(sim_number=1)
 
 
     def get_time(self):

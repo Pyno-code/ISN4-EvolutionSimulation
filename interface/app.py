@@ -1,18 +1,23 @@
 import ttkbootstrap as ttk
+import tkinter as tk
 from ttkbootstrap.constants import *
 from simulation.simulation import Simulation
 from simulation.entity import Entity
 from simulation.nourriture import Nourriture
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 
-class Interface:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Simulation Évolutive (Vista-style theme)")
-        self.root.state("zoomed")
 
-        # Utilisation d'un thème clair proche de Vista
-        self.style = self.root.style
-        self.style.theme_use("flatly")
+class Interface(ttk.Window):
+    def __init__(self, simulation):
+        super().__init__(themename="flatly")  # Choisis ton thème ici : 'flatly', 'darkly', etc.
+
+        self.title("Simulation Évolutive (Bootstrap-style theme)")
+        self.state("zoomed")
+
+        self.simulation = simulation
+
+        # Tu peux accéder au style via self.style
         self.style.configure("Graph.TFrame", background="black", borderwidth=1, relief="solid")
 
         self.couleur_bande = "#e1e1e1"
@@ -22,13 +27,14 @@ class Interface:
 
         self.creer_interfaces()
 
+
     def creer_interfaces(self):
         # Configuration des poids des colonnes
-        self.root.grid_columnconfigure(0, weight=1)  # Colonne gauche (1/5)
-        self.root.grid_columnconfigure(1, weight=3)  # Colonne centrale (3/5)
-        self.root.grid_columnconfigure(2, weight=1)  # Colonne droite (1/5)
-        self.root.grid_rowconfigure(0, weight=1)     # Ligne principale
-        self.root.grid_rowconfigure(1, weight=0)     # Ligne du bas (pour les contrôles)
+        self.grid_columnconfigure(0, weight=1)  # Colonne gauche (1/5)
+        self.grid_columnconfigure(1, weight=3)  # Colonne centrale (3/5)
+        self.grid_columnconfigure(2, weight=1)  # Colonne droite (1/5)
+        self.grid_rowconfigure(0, weight=1)     # Ligne principale
+        self.grid_rowconfigure(1, weight=0)     # Ligne du bas (pour les contrôles)
 
         self.creer_bande_gauche()
         self.creer_zone_centrale()
@@ -36,7 +42,7 @@ class Interface:
         self.creer_bande_bas()
 
     def creer_bande_gauche(self):
-        self.interf_gauche = ttk.Frame(self.root, style="Card.TFrame")
+        self.interf_gauche = ttk.Frame(self, style="Card.TFrame")
         self.interf_gauche.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         self.interf_gauche.grid_propagate(False)
 
@@ -109,13 +115,13 @@ class Interface:
         self.bouton_quitter = ttk.Button(
             self.interf_gauche, 
             text="Quitter", 
-            command=self.root.quit,
+            command=self.quit,
             bootstyle="danger"
         )
         self.bouton_quitter.grid(row=9, column=0, pady=10, sticky="ew", padx=10)
 
     def creer_zone_centrale(self):
-        self.zone_centrale = ttk.Frame(self.root, style="Card.TFrame")
+        self.zone_centrale = ttk.Frame(self, style="Card.TFrame")
         self.zone_centrale.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
 
         self.canvas = ttk.tk.Canvas(
@@ -126,7 +132,7 @@ class Interface:
         self.canvas.pack(expand=True, fill="both")
 
     def creer_bande_droite(self):
-        self.interf_droite = ttk.Frame(self.root, style="Card.TFrame")
+        self.interf_droite = ttk.Frame(self, style="Card.TFrame")
         self.interf_droite.grid(row=0, column=2, sticky="nsew", padx=5, pady=5)
         self.interf_droite.grid_propagate(False)
 
@@ -158,7 +164,7 @@ class Interface:
         self.graph_frame3.grid(row=3, column=0, sticky="ew", padx=10, pady=5)
 
     def creer_bande_bas(self):
-        self.interf_bas = ttk.Frame(self.root, style="Card.TFrame")
+        self.interf_bas = ttk.Frame(self, style="Card.TFrame")
         self.interf_bas.grid(row=1, column=0, columnspan=3, sticky="ew", padx=5, pady=5)
 
         # Déplacer les contrôles vers la gauche (colonne 0)
