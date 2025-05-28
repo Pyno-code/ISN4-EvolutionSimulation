@@ -2,8 +2,8 @@ import ttkbootstrap as ttk
 import tkinter as tk
 
 class Interface(ttk.Window):
-    def __init__(self, simulation):
-        super().__init__(themename="darkly")  # ou darkly
+    def __init__(self, simulation = None):
+        super().__init__(themename="flatly")  # ou darkly ou superhero ouflatly
         self.running = True
         self.simulation = simulation
         self.title("Interface de simulation")
