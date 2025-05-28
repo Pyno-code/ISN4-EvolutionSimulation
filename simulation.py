@@ -4,6 +4,7 @@ import numpy as np
 from entity import Entity
 from nourriture import Nourriture
 from tkinter import Canvas
+from logger import SimulationLogger
 
 class Simulation():
     def __init__(self, fps=60):
@@ -30,6 +31,8 @@ class Simulation():
         self.running = False
         self.initialized = False
 
+
+        self.logger = SimulationLogger(sim_number=1)
 
 
     def get_time(self):
@@ -68,8 +71,8 @@ class Simulation():
         self.height = height
 
     def initialize(self):
-        self.initialize_entities()
         self.initialize_nourritures()
+        self.initialize_entities()
 
     def initialize_time(self):
         self.current_time = 0
@@ -77,6 +80,9 @@ class Simulation():
     def initialize_entities(self):
         while len(self.entities) < self.number_entity:
             self.add_entity()
+        for entity in self.entities:
+            entity.set_entities(self.entities)
+            entity.set_nourritures(self.nourritures)
 
     def initialize_nourritures(self):
         while len(self.nourritures) < self.number_nourriture:
@@ -92,23 +98,37 @@ class Simulation():
         for entity in self.entities:
             entity.set_nourritures(self.nourritures)
 
-
     def update_entity(self):
         for entity in self.entities:
             if entity.exist:
                 entity.update()
+                self.record_entities(entity)
             else:
                 self.entities.remove(entity)
+
+    def update_nouriture(self):
+        for nourriture in self.nourritures:
+            if nourriture.exist:
+                nourriture.update()
+                self.record_nouritures(nourriture)
+            else:
+                self.nourritures.remove(nourriture)
         
     def update(self):
         if self.running:
+            self.logger.add_frame(timestamp=self.get_time())
             self.update_entity()
-            self.record_data()
+            self.update_nouriture()   
+            self.logger.save_frame()
             self.number_loop += 1
-            
-    def record_data(self):
-        current_time = self.number_loop * self.time_step
+
+
+    
+    def record_entities(self, entity):
+        self.logger.add_entity(entity_id=entity.id, position=[entity.x, entity.y], level=entity.level)
         
+    def record_nouritures(self, nourriture):
+        self.logger.add_food(entity_id=nourriture.id, position=[nourriture.x, nourriture.y])
 
     def pause(self):
         self.running = False
@@ -128,11 +148,6 @@ class Simulation():
 
 if __name__ == "__main__":
     # TODO:
-    # on ne devrais pas avoir besoin de canvas
-    # faut qu'on réalise le coeur de la simulation c'est à dire l'update, le spawn et la suppression des entités et de la nourriture
-    # et la sauvegarde des données en temps réel
-
-    # chamgement des parametres et des classes des objets de la simulation
 
     canvas = Canvas()
     sim = Simulation(fps=30)
