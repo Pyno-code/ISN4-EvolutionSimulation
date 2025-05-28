@@ -148,11 +148,6 @@ class Simulation():
 
 if __name__ == "__main__":
     # TODO:
-    # on ne devrais pas avoir besoin de canvas
-    # faut qu'on réalise le coeur de la simulation c'est à dire l'update, le spawn et la suppression des entités et de la nourriture
-    # et la sauvegarde des données en temps réel
-
-    # chamgement des parametres et des classes des objets de la simulation
 
     canvas = Canvas()
     sim = Simulation(fps=30)

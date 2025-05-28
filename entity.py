@@ -6,11 +6,15 @@ import tkinter as tk
 class Entity:
     
 
-    def __init__(self, id, width, height, level=random.randint(1, 3)):
+    def __init__(self, id, width, height, x=0, y=0, pos_random = True, level=random.randint(1, 3)):
         self.id = id
         self.level = level
+        
+        if pos_random:
+            self.x, self.y = random.randint(20, width - 20), random.randint(20, height - 20)
+        else:
+            self.x, self.y = x, y
 
-        self.x, self.y = random.randint(20, width - 20), random.randint(20, height - 20)
         self.update_speed()
         self.angle = random.uniform(0, 360)  # Direction aléatoire
 
@@ -56,12 +60,13 @@ class Entity:
             self.exist = False
 
     def update(self):
-        if not self.updating:
-            self.updating = True
-            entities_in_scope = self.scope_detection_entity()
-            self.update_direction(entities_in_scope)
-            self.update_position()
-            self.updating = False
+        # if not self.updating:
+        #     self.updating = True
+        #     entities_in_scope = self.scope_detection_entity()
+        #     self.update_direction(entities_in_scope)
+        #     self.update_position()
+        #     self.updating = False
+        pass
 
     def update_direction(self, entities_in_scope):
         self.angle += random.gauss(0, 15)  # Biais vers un faible changement
