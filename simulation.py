@@ -93,7 +93,6 @@ class Simulation():
             entity.set_nourritures(self.nourritures)
 
 
-
     def update_entity(self):
         for entity in self.entities:
             if entity.exist:
@@ -139,5 +138,4 @@ if __name__ == "__main__":
     sim = Simulation(fps=30)
     sim.add_entity(Entity(id=1, canvas=canvas, x=10, y=50, level=2))
     sim.add_nourriture(Nourriture(id=1, canvas=canvas, x=100, y=100))
-    sim.run_simulation(duration=10)
     sim.save_data()
