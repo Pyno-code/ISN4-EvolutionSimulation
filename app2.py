@@ -7,10 +7,10 @@ from nourriture import Nourriture
 class SimulationInterface:
     def __init__(self, root):
         self.root = root
-        self.root.title("Simulation Évolutive (flatly theme)")
+        self.root.title("Simulation Évolutive (Vista-style theme)")
         self.root.state("zoomed")
 
-        # theme == clair
+        # Utilisation d'un thème clair proche de Vista
         self.style = self.root.style
         self.style.theme_use("flatly")
         self.style.configure("Graph.TFrame", background="black", borderwidth=1, relief="solid")
@@ -29,7 +29,7 @@ class SimulationInterface:
         self.creer_bande_bas()
 
     def creer_bande_gauche(self):
-        self.interf_gauche = ttk.Frame(self.root, width=240, style="Card.TFrame")
+        self.interf_gauche = ttk.Frame(self.root, width=420, style="Card.TFrame")
         self.interf_gauche.pack(side="left", fill="y", padx=5, pady=5)
 
         ttk.Label(
@@ -55,14 +55,21 @@ class SimulationInterface:
         self.btn_redemarrer.pack(pady=5, fill="x", padx=10)
 
         ttk.Label(self.interf_gauche, text="Vitesse :").pack(pady=(10, 0))
+        frame_vitesse = ttk.Frame(self.interf_gauche)
+        frame_vitesse.pack(pady=5, fill="x", padx=10)
+        self.label_vitesse_value = ttk.Label(frame_vitesse, text="100", width=5)
+        self.label_vitesse_value.pack(side="right")
         self.slider_vitesse = ttk.Scale(
-            self.interf_gauche, 
+            frame_vitesse, 
             from_=10, 
             to=500, 
-            command=lambda v: self.simulation.update_fps(float(v))
+            command=lambda v: [
+                self.simulation.update_fps(float(v)),
+                self.label_vitesse_value.config(text=str(int(float(v))))
+            ]
         )
         self.slider_vitesse.set(100)
-        self.slider_vitesse.pack(pady=5, fill="x", padx=10)
+        self.slider_vitesse.pack(side="left", fill="x", expand=True)
 
         self.bouton_pause_play = ttk.Button(
             self.interf_gauche, 
@@ -108,7 +115,7 @@ class SimulationInterface:
         self.canvas.pack(expand=True, fill="both")
 
     def creer_bande_droite(self):
-        self.interf_droite = ttk.Frame(self.root, width=300, style="Card.TFrame")
+        self.interf_droite = ttk.Frame(self.root, width=2000, style="Card.TFrame")
         self.interf_droite.pack(side="right", fill="y", padx=5, pady=5)
 
         ttk.Label(
