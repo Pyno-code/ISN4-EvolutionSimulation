@@ -35,7 +35,6 @@ class Simulation():
         self.logger = SimulationLogger(sim_number=1)
 
 
-
     def get_time(self):
         # return self.current_time
         return (time.time() - self.start_time) / 1000
@@ -72,8 +71,8 @@ class Simulation():
         self.height = height
 
     def initialize(self):
-        self.initialize_entities()
         self.initialize_nourritures()
+        self.initialize_entities()
 
     def initialize_time(self):
         self.current_time = 0
@@ -81,6 +80,9 @@ class Simulation():
     def initialize_entities(self):
         while len(self.entities) < self.number_entity:
             self.add_entity()
+        for entity in self.entities:
+            entity.set_entities(self.entities)
+            entity.set_nourritures(self.nourritures)
 
     def initialize_nourritures(self):
         while len(self.nourritures) < self.number_nourriture:
@@ -95,7 +97,6 @@ class Simulation():
         self.nourritures.append(current_nourriture)
         for entity in self.entities:
             entity.set_nourritures(self.nourritures)
-
 
     def update_entity(self):
         for entity in self.entities:
