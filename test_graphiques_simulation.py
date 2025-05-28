@@ -1,5 +1,4 @@
 
-# inspiré de https://es.stackoverflow.com/questions/348847/gr%C3%A1ficos-en-tiempo-real-con-matplotlib-y-tkinter
 
 import tkinter as tk
 from tkinter import ttk
@@ -21,13 +20,14 @@ class Application(tk.Tk):
         # Données
         self.x_data = []
         self.y_data = []
+        self.frame_count = 0
         self.running = False
 
         # Figure matplotlib
         self.fig, self.ax = plt.subplots()
         self.line, = self.ax.plot([], [], lw=2)
         self.ax.set_xlim(0, 10)
-        self.ax.set_ylim(-1.5, 1.5)
+        self.ax.set_ylim(0, 100)
         self.ax.set_title("Évolution de la population")
         self.ax.set_xlabel("Temps")
         self.ax.set_ylabel("Nombre d'individus")
@@ -61,16 +61,17 @@ class Application(tk.Tk):
         if not self.running:
             return
 
-        t = self.simulation.current_time
+        t = self.frame_count * 0.1  #self.simulation.get_time() dans la version finale
         self.x_data.append(t)
-        self.y_data.append(len(self.simulation.entities))
+        self.y_data.append(self.simulation.get_number_entity())
 
         if t>10:
-            self.ax.set_xlim(t - 10, t)
+            self.ax.set_xlim(0, t) # défini l'échelle 
 
         self.line.set_data(self.x_data, self.y_data)
         self.canvas.draw()
 
+        self.frame_count += 1 # à enlever quand je récupérerai le temps depuis la simulation
         self.after(50, self.update_graph) # remplacer 50 par le temps récupérer dans la classe simulation ou choisir arbitrairement
 
     def save_graph(self):
@@ -86,3 +87,4 @@ class Application(tk.Tk):
 if __name__ == "__main__":
     app = Application(Simulation())
     app.mainloop()
+
