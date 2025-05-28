@@ -4,6 +4,7 @@ import numpy as np
 from entity import Entity
 from nourriture import Nourriture
 from tkinter import Canvas
+from logger import SimulationLogger
 
 class Simulation():
     def __init__(self, fps=60):
@@ -29,6 +30,9 @@ class Simulation():
 
         self.running = False
         self.initialized = False
+
+
+        self.logger = SimulationLogger(sim_number=1)
 
 
 
@@ -97,18 +101,33 @@ class Simulation():
         for entity in self.entities:
             if entity.exist:
                 entity.update()
+                self.record_entities(entity)
             else:
                 self.entities.remove(entity)
+
+    def update_nouriture(self):
+        for nourriture in self.nourritures:
+            if nourriture.exist:
+                nourriture.update()
+                self.record_nouritures(nourriture)
+            else:
+                self.nourritures.remove(nourriture)
         
     def update(self):
         if self.running:
+            self.logger.add_frame(timestamp=self.get_time())
             self.update_entity()
-            self.record_data()
+            self.update_nouriture()   
+            self.logger.save_frame()
             self.number_loop += 1
-            
-    def record_data(self):
-        current_time = self.number_loop * self.time_step
+
+
+    
+    def record_entities(self, entity):
+        self.logger.add_entity(entity_id=entity.id, position=[entity.x, entity.y], level=entity.level)
         
+    def record_nouritures(self, nourriture):
+        self.logger.add_food(entity_id=nourriture.id, position=[nourriture.x, nourriture.y])
 
     def pause(self):
         self.running = False
