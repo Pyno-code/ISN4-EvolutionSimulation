@@ -200,7 +200,7 @@ class SimulationInterface(ttk.Window):
     # rajout  de   creer_zone_centrale, creer_bande_droite, creer_bande_bas
     def creer_zone_centrale(self):
         self.zone_centrale = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
-        self.zone_centrale.place(relx=0.15, rely=0.0, relwidth=0.55, relheight=0.8)
+        self.zone_centrale.place(relx=0.15, rely=0.0, relwidth=0.55, relheight=0.92)
 
         self.canvas = ttk.tk.Canvas(
             self.zone_centrale, 
@@ -245,11 +245,11 @@ class SimulationInterface(ttk.Window):
 
     def creer_bande_bas(self):
         self.interf_bas = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
-        self.interf_bas.place(relx=0.15, rely=0.8, relwidth=0.55, relheight=0.2)
+        self.interf_bas.place(relx=0.15, rely=0.92, relwidth=0.55, relheight=0.08)
 
         # Déplacer les contrôles vers la gauche (colonne 0)
         frame_nb = ttk.Frame(self.interf_bas)
-        frame_nb.grid(row=0, column=0, padx=10, pady=5, sticky="ew")
+        frame_nb.grid(row=0, column=0, padx=10, pady=30, sticky="ew")
         ttk.Label(frame_nb, text="Nb entités:").pack(side="left")
         self.label_nb_value = ttk.Label(frame_nb, text="20", width=5)
         self.label_nb_value.pack(side="left")
@@ -267,7 +267,7 @@ class SimulationInterface(ttk.Window):
         self.slider_nb.pack(side="left", fill="x", expand=True)
 
         frame_width = ttk.Frame(self.interf_bas)
-        frame_width.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
+        frame_width.grid(row=0, column=1, padx=10, pady=30, sticky="ew")
         ttk.Label(frame_width, text="Largeur:").pack(side="left")
         self.label_width_value = ttk.Label(frame_width, text="800", width=5)
         self.label_width_value.pack(side="left")
@@ -285,7 +285,7 @@ class SimulationInterface(ttk.Window):
         self.slider_largeur.pack(side="left", fill="x", expand=True)
 
         frame_length = ttk.Frame(self.interf_bas)
-        frame_length.grid(row=0, column=2, padx=10, pady=5, sticky="ew")
+        frame_length.grid(row=0, column=2, padx=10, pady=30, sticky="ew")
         ttk.Label(frame_length, text="Longueur:").pack(side="left")
         self.label_length_value = ttk.Label(frame_length, text="600", width=5)
         self.label_length_value.pack(side="left")
