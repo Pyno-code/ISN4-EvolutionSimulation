@@ -1,8 +1,8 @@
 import time
 import random
 import numpy as np
-from simulation.entity import Entity
-from simulation.nourriture import Nourriture
+from backend.entity import Entity
+from backend.nourriture import Nourriture
 from tkinter import Canvas
 from logger import SimulationLogger
 

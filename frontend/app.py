@@ -1,7 +1,7 @@
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from ttkbootstrap.dialogs import Messagebox
-from simulation import Simulation
+from frontend.simulation import Simulation
 
 class SimulationInterface:
     def __init__(self, root):
