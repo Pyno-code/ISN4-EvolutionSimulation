@@ -7,6 +7,8 @@ from ttkbootstrap.dialogs import Messagebox
 from ttkbootstrap.constants import *
 from backend.simulation import Simulation
 import tkinter as tk
+from frontend.display import Display
+from frontend.graphiques import Graphiques
 
 
 
@@ -221,26 +223,28 @@ class SimulationInterface(ttk.Window):
             font=("Segoe UI", 10, "bold")
         ).grid(row=0, column=0, pady=10, sticky="ew")
 
-        self.graph_frame1 = ttk.Frame(
-            self.interf_droite,
-            style="Graph.TFrame",
-            height=200
-        )
-        self.graph_frame1.grid(row=1, column=0, sticky="ew", padx=10, pady=5)
+        # self.graph_frame1 = ttk.Frame(
+        #     self.interf_droite,
+        #     style="Graph.TFrame",
+        #     height=200
+        # )
+        # self.graph_frame1.grid(row=1, column=0, sticky="ew", padx=10, pady=5)
 
-        self.graph_frame2 = ttk.Frame(
-            self.interf_droite,
-            style="Graph.TFrame",
-            height=200
-        )
-        self.graph_frame2.grid(row=2, column=0, sticky="ew", padx=10, pady=5)
+        # self.graph_frame2 = ttk.Frame(
+        #     self.interf_droite,
+        #     style="Graph.TFrame",
+        #     height=200
+        # )
+        # self.graph_frame2.grid(row=2, column=0, sticky="ew", padx=10, pady=5)
 
-        self.graph_frame3 = ttk.Frame(
-            self.interf_droite,
-            style="Graph.TFrame",
-            height=200
-        )
-        self.graph_frame3.grid(row=3, column=0, sticky="ew", padx=10, pady=5)
+        # self.graph_frame3 = ttk.Frame(
+        #     self.interf_droite,
+        #     style="Graph.TFrame",
+        #     height=200
+        # )
+        # self.graph_frame3.grid(row=3, column=0, sticky="ew", padx=10, pady=5)
+
+
 
     def creer_bande_bas(self):
         self.interf_bas = ttk.Frame(self, style="Card.TFrame")
