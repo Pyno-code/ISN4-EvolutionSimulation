@@ -87,6 +87,7 @@ class Graphiques():
     def save_graph_1(self):
         file_path = filedialog.asksaveasfilename(
             defaultextension=".png",
+            initialfile="graphique_population.png",  # Nom par défaut
             filetypes=[("PNG files", "*.png"), ("All files", "*.*")],
             title="Enregistrer le graphique"
         )
@@ -97,6 +98,7 @@ class Graphiques():
     def save_graph_2(self):
         file_path = filedialog.asksaveasfilename(
             defaultextension=".png",
+            initialfile="graphique_nourriture.png",  # Nom par défaut
             filetypes=[("PNG files", "*.png"), ("All files", "*.*")],
             title="Enregistrer le graphique"
         )
