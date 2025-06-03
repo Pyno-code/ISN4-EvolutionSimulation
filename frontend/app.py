@@ -24,7 +24,7 @@ class SimulationInterface(ttk.Window):
 
         self.simulation.update_map_dimensions(width=800, height=600)  
 
-        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
+        self.protocol("WM_DELETE_WINDOW", self.on_close)
 
         
         self.creer_interfaces()
@@ -34,7 +34,7 @@ class SimulationInterface(ttk.Window):
     
     def update(self):
         if self.running:
-            self.update()
+            super().update()
             self.update_info_labels()
     
 
@@ -124,7 +124,7 @@ class SimulationInterface(ttk.Window):
 
         self.btn_redemarrer = ttk.Button(
             self.interf_gauche, 
-            text="Redémarrer", 
+            text="Reset", 
             command=self.reset_simulation,
             bootstyle="warning"
         )
