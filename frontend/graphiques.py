@@ -9,11 +9,12 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from backend.simulation import Simulation
 
-matplotlib.use("TkAgg")
 
-class Application():
+
+class Graphiques():
     def __init__(self, root, simulation): # root c'est le parent, où on enregistre les graphiques
         super().__init__()
+        matplotlib.use("TkAgg")
         self.simulation = simulation
         self.root = root
         # Données
