@@ -31,7 +31,7 @@ class SimulationInterface(ttk.Window):
         self.creer_interfaces()
         self.update_info_labels()
 
-        # self.graphiques = Graphiques(self.interf_droite, self.simulation)
+        self.graphiques = Graphiques(self.interf_droite, self.simulation)
         # self.display = Display(self.zone_centrale, self.simulation)
 
         self.running = True
@@ -40,7 +40,7 @@ class SimulationInterface(ttk.Window):
         if self.running:
             super().update()
             self.update_info_labels()
-            self.display.update()
+            # self.display.update()
             self.graphiques.update_graph()
     
 
@@ -60,9 +60,9 @@ class SimulationInterface(ttk.Window):
         nb_survivants = self.simulation.get_number_entity()
         nb_nourriture = self.simulation.get_number_nourriture()
         
-        if hasattr(self, 'label_survivants'):
-            self.label_survivants.config(text=f"Nb survivants: {nb_survivants}")
-            self.label_nourriture.config(text=f"Nb nourriture: {nb_nourriture}")
+        # if hasattr(self, 'label_survivants'):
+        #     self.label_survivants.config(text=f"Nb survivants: {nb_survivants}")
+        #     self.label_nourriture.config(text=f"Nb nourriture: {nb_nourriture}")
         
 
     def reset_simulation(self):
@@ -104,7 +104,7 @@ class SimulationInterface(ttk.Window):
 
     def creer_bande_gauche(self):
         self.interf_gauche = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
-        self.interf_gauche.place(relx=0, rely=0, relwidth=0.2, relheight=1.0)
+        self.interf_gauche.place(relx=0, rely=0, relwidth=0.15, relheight=1.0)
 
         ttk.Label(
             self.interf_gauche, 
@@ -197,11 +197,10 @@ class SimulationInterface(ttk.Window):
             bootstyle="danger"
         )
         self.bouton_quitter.grid(row=11, column=0, pady=10, sticky="nswe", padx=10)
-
     # rajout  de   creer_zone_centrale, creer_bande_droite, creer_bande_bas
     def creer_zone_centrale(self):
         self.zone_centrale = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
-        self.zone_centrale.place(relx=0.2, rely=0.0, relwidth=0.6, relheight=0.8)
+        self.zone_centrale.place(relx=0.15, rely=0.0, relwidth=0.55, relheight=0.8)
 
         self.canvas = ttk.tk.Canvas(
             self.zone_centrale, 
@@ -212,13 +211,13 @@ class SimulationInterface(ttk.Window):
 
     def creer_bande_droite(self):
         self.interf_droite = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
-        self.interf_droite.place(relx=0.8, rely=0, relwidth=0.2, relheight=1.0)
+        self.interf_droite.place(relx=0.7, rely=0, relwidth=0.3, relheight=1.0)
 
-        ttk.Label(
-            self.interf_droite,
-            text="Graphiques en temps réel",
-            font=("Segoe UI", 10, "bold")
-        ).grid(row=0, column=0, pady=10, sticky="ew")
+        # ttk.Label(
+        #     self.interf_droite,
+        #     text="Graphiques en temps réel",
+        #     font=("Segoe UI", 10, "bold")
+        # ).grid(row=0, column=0, pady=10, sticky="ew")
 
 
 
@@ -246,7 +245,7 @@ class SimulationInterface(ttk.Window):
 
     def creer_bande_bas(self):
         self.interf_bas = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
-        self.interf_bas.place(relx=0.2, rely=0.8, relwidth=0.6, relheight=0.2)
+        self.interf_bas.place(relx=0.15, rely=0.8, relwidth=0.55, relheight=0.2)
 
         # Déplacer les contrôles vers la gauche (colonne 0)
         frame_nb = ttk.Frame(self.interf_bas)
