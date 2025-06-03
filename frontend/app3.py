@@ -1,15 +1,3 @@
-import os
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-import ttkbootstrap as ttk
-from ttkbootstrap.dialogs import Messagebox
-from ttkbootstrap.constants import *
-from backend.simulation import Simulation
-import tkinter as tk
-
-
-
 class SimulationInterface(ttk.Window):
     def __init__(self, simulation):
         super().__init__(themename ="flatly")
@@ -22,28 +10,12 @@ class SimulationInterface(ttk.Window):
         self.style.configure("Graph.TFrame", background="black", borderwidth=1, relief="solid")
         self.couleur_bande = "#e1e1e1"
 
-        self.simulation.update_map_dimensions(width=800, height=600)  
-
-        self.protocol("WM_DELETE_WINDOW", self.on_close)
-
+        self.simulation.update_map_dimensions(width=800, height=600) # !!! 
         
         self.creer_interfaces()
+        
         self.update_info_labels()
-
-        self.running = True
     
-    def update(self):
-        if self.running:
-            super().update()
-            self.update_info_labels()
-    
-
-    def on_close(self):
-        print("Fermeture propre")
-        self.running = False
-        self.destroy()
-
-
     def start_simulation(self):
         self.etat_start = True
         self.simulation.resume()
@@ -58,13 +30,14 @@ class SimulationInterface(ttk.Window):
             self.label_survivants.config(text=f"Nb survivants: {nb_survivants}")
             self.label_nourriture.config(text=f"Nb nourriture: {nb_nourriture}")
         
+        self.after(1000, self.update_info_labels)
 
     def reset_simulation(self):
         
         self.etat_start = False
         
         self.bouton_pause_play.config(text = "Pause")
-        self.simulation.update_number_entity(20)
+        self.dsimulation.update_number_entity(20)
         self.simulation.update_number_nourriture(20)
         self.slider_nb.set(20)
         self.info_content.config(text="Simulation réinitialisée. Prêt à démarrer.")
@@ -124,7 +97,7 @@ class SimulationInterface(ttk.Window):
 
         self.btn_redemarrer = ttk.Button(
             self.interf_gauche, 
-            text="Reset", 
+            text="Redémarrer", 
             command=self.reset_simulation,
             bootstyle="warning"
         )
@@ -193,7 +166,7 @@ class SimulationInterface(ttk.Window):
         self.bouton_quitter = ttk.Button(
             self.interf_gauche, 
             text="Quitter", 
-            command=self.on_close,
+            command=self.quit,
             bootstyle="danger"
         )
         self.bouton_quitter.grid(row=11, column=0, pady=10, sticky="ew", padx=10)
