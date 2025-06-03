@@ -20,7 +20,6 @@ class Graphiques():
         # Données
         self.x_data = [] 
         self.y_data_1 = []
-        self.x_data = []
         self.y_data_2 = []
 
 
@@ -28,7 +27,7 @@ class Graphiques():
         self.running = False
 
         # Graphique Évolution de la population, tout les _1
-        self.fig_1, self.ax_1 = plt.subplots(figsize=(5, 3.5))
+        self.fig_1, self.ax_1 = plt.subplots(figsize=(5, 3.7))
         self.line_1, = self.ax_1.plot([], [], lw=2)
         self.ax_1.set_xlim(0, 10)
         self.ax_1.set_ylim(0, 100)
@@ -37,7 +36,7 @@ class Graphiques():
         self.ax_1.set_ylabel("Nombre d'individus")
 
         # Graphique Evolution de la nourriture, tous les _2
-        self.fig_2, self.ax_2 = plt.subplots(figsize=(5, 3.6))
+        self.fig_2, self.ax_2 = plt.subplots(figsize=(5, 3.7))
         self.line_2, = self.ax_2.plot([], [], lw=2)
         self.ax_2.set_xlim(0, 10)
         self.ax_2.set_ylim(0, 100)
@@ -52,7 +51,7 @@ class Graphiques():
 
         self.canvas_2 = FigureCanvasTkAgg(self.fig_2, master=root)
         self.canvas_widget_2 = self.canvas_2.get_tk_widget()
-        self.canvas_widget_2.grid(row=2, column=0, sticky="nsew", pady=(0, 40))
+        self.canvas_widget_2.grid(row=2, column=0, sticky="nsew", pady=(0, 20))
 
         self.save_button_2 = ttk.Button(root, text="Télécharger le graphique", command=self.save_graph)
         self.save_button_2.grid(row=3, column=0, padx=0, pady=0)
