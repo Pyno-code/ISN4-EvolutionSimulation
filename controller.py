@@ -11,6 +11,7 @@ class Controller:
         self.simulation.update()
         self.app.update()
 
+        pass
     def run(self):
         while self.running:
             self.update()
