@@ -33,13 +33,12 @@ class Graphiques():
         # self.rowconfigure(0, weight=1)
 
         # Frame principale
-        main_frame = ttk.Frame(root)
-        main_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
-        main_frame.columnconfigure((0, 1, 2), weight=1)  # Colonnes boutons
-        main_frame.rowconfigure(0, weight=1)  # Ligne du graphique
+        root.grid(row=0, column=2, sticky="nsew", padx=10, pady=10)
+        root.columnconfigure((0, 1, 2), weight=1)  # Colonnes boutons
+        root.rowconfigure(0, weight=1)  # Ligne du graphique
 
         # Graphique Évolution de la population, tout les _1
-        self.fig_1, self.ax_1 = plt.subplots(figsize=(3, 2))
+        self.fig_1, self.ax_1 = plt.subplots(figsize=(6, 4))
         self.line_1, = self.ax_1.plot([], [], lw=2)
         self.ax_1.set_xlim(0, 10)
         self.ax_1.set_ylim(0, 100)
@@ -47,7 +46,7 @@ class Graphiques():
         self.ax_1.set_xlabel("Temps")
         self.ax_1.set_ylabel("Nombre d'individus")
         # Graphique Evolution de la nourriture, tous les _2
-        self.fig_2, self.ax_2 = plt.subplots(figsize=(3, 2))
+        self.fig_2, self.ax_2 = plt.subplots(figsize=(6, 4))
         self.line_2, = self.ax_2.plot([], [], lw=2)
         self.ax_2.set_xlim(0, 10)
         self.ax_2.set_ylim(0, 100)
@@ -55,7 +54,7 @@ class Graphiques():
         self.ax_2.set_xlabel("Temps")
         self.ax_2.set_ylabel("quantité de nourriture")
         # Graphique Evolution de l'énergie', tous les _3
-        self.fig_3, self.ax_3 = plt.subplots(figsize=(3, 2))
+        self.fig_3, self.ax_3 = plt.subplots(figsize=(6, 4))
         self.line_3, = self.ax_3.plot([], [], lw=2)
         self.ax_3.set_xlim(0, 10)
         self.ax_3.set_ylim(0, 100)
@@ -64,26 +63,26 @@ class Graphiques():
         self.ax_3.set_ylabel("quantité d'énergie")
 
         # Intégration des graphiques dans Tkinter
-        self.canvas_1 = FigureCanvasTkAgg(self.fig_1, master=main_frame)
+        self.canvas_1 = FigureCanvasTkAgg(self.fig_1, master=root)
         self.canvas_widget_1 = self.canvas_1.get_tk_widget()
-        self.canvas_widget_1.grid(row=0, column=0, sticky="nsew", pady=(0, 10))
+        self.canvas_widget_1.grid(row=1, column=2, sticky="nsew", pady=(0, 10))
 
-        self.save_button_1 = ttk.Button(main_frame, text="Télécharger le graphique", command=self.save_graph_1)
-        self.save_button_1.grid(row=1, column=0, padx=5, pady=5)
+        self.save_button_1 = ttk.Button(root, text="Télécharger le graphique", command=self.save_graph_1)
+        self.save_button_1.grid(row=2, column=2, padx=5, pady=5)
 
-        self.canvas_2 = FigureCanvasTkAgg(self.fig_2, master=main_frame)
+        self.canvas_2 = FigureCanvasTkAgg(self.fig_2, master=root)
         self.canvas_widget_2 = self.canvas_2.get_tk_widget()
-        self.canvas_widget_2.grid(row=2, column=0, sticky="nsew", pady=(0, 10))
+        self.canvas_widget_2.grid(row=3, column=2, sticky="nsew", pady=(0, 10))
 
-        self.save_button_2 = ttk.Button(main_frame, text="Télécharger le graphique", command=self.save_graph_2)
-        self.save_button_2.grid(row=3, column=0, padx=5, pady=5)
+        self.save_button_2 = ttk.Button(root, text="Télécharger le graphique", command=self.save_graph_2)
+        self.save_button_2.grid(row=4, column=2, padx=5, pady=5)
 
-        self.canvas_3 = FigureCanvasTkAgg(self.fig_3, master=main_frame)
+        self.canvas_3 = FigureCanvasTkAgg(self.fig_3, master=root)
         self.canvas_widget_3 = self.canvas_3.get_tk_widget()
-        self.canvas_widget_3.grid(row=4, column=0, sticky="nsew", pady=(0, 10))
+        self.canvas_widget_3.grid(row=5, column=2, sticky="nsew", pady=(0, 10))
 
-        self.save_button_3 = ttk.Button(main_frame, text="Télécharger le graphique", command=self.save_graph_3)
-        self.save_button_3.grid(row=5, column=0, padx=5, pady=5)
+        self.save_button_3 = ttk.Button(root, text="Télécharger le graphique", command=self.save_graph_3)
+        self.save_button_3.grid(row=6, column=2, padx=5, pady=5)
 
     def update_graph(self):
 
@@ -150,7 +149,7 @@ if __name__ == "__main__":
     # Création d'une simulation factice pour l'exemple
     simulation = Simulation(fps=30)
 
-    app = Graphiques(root, simulation)
+    app = Graphiques(tk.Frame(), simulation)
     app.update_graph()  # Démarre la mise à jour du graphique
     root.mainloop() 
 

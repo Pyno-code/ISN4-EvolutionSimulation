@@ -28,9 +28,11 @@ class SimulationInterface(ttk.Window):
 
         self.protocol("WM_DELETE_WINDOW", self.on_close)
 
-        
         self.creer_interfaces()
         self.update_info_labels()
+
+        # self.graphiques = Graphiques(self.interf_droite, self.simulation)
+        # self.display = Display(self.zone_centrale, self.simulation)
 
         self.running = True
     
@@ -38,6 +40,8 @@ class SimulationInterface(ttk.Window):
         if self.running:
             super().update()
             self.update_info_labels()
+            self.display.update()
+            self.graphiques.update_graph()
     
 
     def on_close(self):
@@ -92,28 +96,22 @@ class SimulationInterface(ttk.Window):
         self.update_info_labels()
 
     def creer_interfaces(self):
-        self.grid_columnconfigure(0, weight=1)  #  (1/5)
-        self.grid_columnconfigure(1, weight=3) # (3/5)
-        self.grid_columnconfigure(2, weight=1) # Colonne droite (1/5)
-        self.grid_rowconfigure(0, weight=1) # Ligne princiaple
-        self.grid_rowconfigure(1, weight=0) # Ligne du bas (pour les contrôles)
-
         self.creer_bande_gauche()
         self.creer_zone_centrale()
         self.creer_bande_droite()
         self.creer_bande_bas()
 
+
     def creer_bande_gauche(self):
-        self.interf_gauche = ttk.Frame(self, style="Card.TFrame")
-        self.interf_gauche.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        self.interf_gauche.grid_propagate(False)
+        self.interf_gauche = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
+        self.interf_gauche.place(relx=0, rely=0, relwidth=0.2, relheight=1.0)
 
         ttk.Label(
             self.interf_gauche, 
             text="Contrôles", 
             font=("Segoe UI", 12, "bold"),  
             style="Card.TLabel"
-        ).grid(row=0, column=0, pady=10, sticky="ew", padx=10)
+        ).grid(row=0, column=0, pady=10, sticky="nswe", padx=10)
 
         # Modification des commandes des boutons
         self.btn_demarrer = ttk.Button(
@@ -122,7 +120,7 @@ class SimulationInterface(ttk.Window):
             command=self.start_simulation,
             bootstyle="success"
         )
-        self.btn_demarrer.grid(row=1, column=0, pady=5, sticky="ew", padx=10)
+        self.btn_demarrer.grid(row=1, column=0, pady=5, sticky="nswe", padx=10)
 
         self.btn_redemarrer = ttk.Button(
             self.interf_gauche, 
@@ -130,12 +128,12 @@ class SimulationInterface(ttk.Window):
             command=self.reset_simulation,
             bootstyle="warning"
         )
-        self.btn_redemarrer.grid(row=2, column=0, pady=5, sticky="ew", padx=10)
+        self.btn_redemarrer.grid(row=2, column=0, pady=5, sticky="nswe", padx=10)
 
         ttk.Label(self.interf_gauche, text="Vitesse :").grid(row=3, column=0, pady=(10, 0), sticky="w", padx=10)
         
         frame_vitesse = ttk.Frame(self.interf_gauche)
-        frame_vitesse.grid(row=4, column=0, pady=5, sticky="ew", padx=10)
+        frame_vitesse.grid(row=4, column=0, pady=5, sticky="nswe", padx=10)
         
         self.label_vitesse_value = ttk.Label(frame_vitesse, text="100", width=5)
         self.label_vitesse_value.pack(side="right")
@@ -159,16 +157,16 @@ class SimulationInterface(ttk.Window):
             command=self.toggle_pause_play,
             bootstyle="secondary"
         )
-        self.bouton_pause_play.grid(row=5, column=0, pady=10, sticky="ew", padx=10)
+        self.bouton_pause_play.grid(row=5, column=0, pady=10, sticky="nswe", padx=10)
 
-        ttk.Separator(self.interf_gauche, orient='horizontal').grid(row=6, column=0, sticky="ew", pady=10, padx=10)
+        ttk.Separator(self.interf_gauche, orient='horizontal').grid(row=6, column=0, sticky="nswe", pady=10, padx=10)
 
         self.info_label = ttk.Label(
             self.interf_gauche, 
             text="Informations sur la simulation",
             font=("Segoe UI", 10, "bold")
         )
-        self.info_label.grid(row=7, column=0, pady=5, sticky="w", padx=10)
+        self.info_label.grid(row=7, column=0, pady=5, sticky="nswe", padx=10)
 
         # Ajout des labels d'information
         self.label_survivants = ttk.Label(
@@ -176,21 +174,21 @@ class SimulationInterface(ttk.Window):
             text="Nb survivants: 0",
             font=("Segoe UI", 9)
         )
-        self.label_survivants.grid(row=8, column=0, pady=2, sticky="w", padx=10)
+        self.label_survivants.grid(row=8, column=0, pady=2, sticky="nswe", padx=10)
 
         self.label_nourriture = ttk.Label(
             self.interf_gauche,
             text="Nb nourriture: 0",
             font=("Segoe UI", 9)
         )
-        self.label_nourriture.grid(row=9, column=0, pady=2, sticky="w", padx=10)
+        self.label_nourriture.grid(row=9, column=0, pady=2, sticky="nswe", padx=10)
 
         self.info_content = ttk.Label(
             self.interf_gauche,
             text="Prêt à démarrer",
             font=("Segoe UI", 9)
         )
-        self.info_content.grid(row=10, column=0, pady=5, sticky="w", padx=10)
+        self.info_content.grid(row=10, column=0, pady=5, sticky="nswe", padx=10)
 
         self.bouton_quitter = ttk.Button(
             self.interf_gauche, 
@@ -198,30 +196,32 @@ class SimulationInterface(ttk.Window):
             command=self.on_close,
             bootstyle="danger"
         )
-        self.bouton_quitter.grid(row=11, column=0, pady=10, sticky="ew", padx=10)
+        self.bouton_quitter.grid(row=11, column=0, pady=10, sticky="nswe", padx=10)
 
     # rajout  de   creer_zone_centrale, creer_bande_droite, creer_bande_bas
     def creer_zone_centrale(self):
-       self.zone_centrale = ttk.Frame(self, style="Card.TFrame")
-       self.zone_centrale.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
+        self.zone_centrale = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
+        self.zone_centrale.place(relx=0.2, rely=0.0, relwidth=0.6, relheight=0.8)
 
-       self.canvas = ttk.tk.Canvas(
-           self.zone_centrale, 
-           bg="white", 
-           highlightthickness=0
-       )
-       self.canvas.pack(expand=True, fill="both")
+        self.canvas = ttk.tk.Canvas(
+            self.zone_centrale, 
+            bg="white", 
+            highlightthickness=0
+        )
+        self.canvas.pack(expand=True, fill="both")
 
     def creer_bande_droite(self):
-        self.interf_droite = ttk.Frame(self, style="Card.TFrame")
-        self.interf_droite.grid(row=0, column=2, sticky="nsew", padx=5, pady=5)
-        self.interf_droite.grid_propagate(False)
+        self.interf_droite = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
+        self.interf_droite.place(relx=0.8, rely=0, relwidth=0.2, relheight=1.0)
 
         ttk.Label(
             self.interf_droite,
             text="Graphiques en temps réel",
             font=("Segoe UI", 10, "bold")
         ).grid(row=0, column=0, pady=10, sticky="ew")
+
+
+
 
         # self.graph_frame1 = ttk.Frame(
         #     self.interf_droite,
@@ -244,11 +244,9 @@ class SimulationInterface(ttk.Window):
         # )
         # self.graph_frame3.grid(row=3, column=0, sticky="ew", padx=10, pady=5)
 
-
-
     def creer_bande_bas(self):
-        self.interf_bas = ttk.Frame(self, style="Card.TFrame")
-        self.interf_bas.grid(row=1, column=0, columnspan=3, sticky="ew", padx=5, pady=5)
+        self.interf_bas = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
+        self.interf_bas.place(relx=0.2, rely=0.8, relwidth=0.6, relheight=0.2)
 
         # Déplacer les contrôles vers la gauche (colonne 0)
         frame_nb = ttk.Frame(self.interf_bas)
