@@ -226,7 +226,3 @@ class SimulationInterface(ttk.Window):
         self.interf_bas.grid_columnconfigure(0, weight=1)
         self.interf_bas.grid_columnconfigure(1, weight=1)
         self.interf_bas.grid_columnconfigure(2, weight=1)
-
-if __name__ == "__main__":
-    app = Interface()
-    app.mainloop()
