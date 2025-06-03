@@ -1,18 +1,21 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
-from simulation.simulation import Simulation
+from backend.simulation import Simulation
 
 matplotlib.use("TkAgg")
 
-class Application:
+class Application():
     def __init__(self, root, simulation): # root c'est le parent, où on enregistre les graphiques
         super().__init__()
         self.simulation = simulation
-
+        self.root = root
         # Données
         self.x_data = []
         self.y_data = []
@@ -20,8 +23,8 @@ class Application:
         self.running = False
 
         # Configuration du layout principal
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
+        # self.columnconfigure(0, weight=1)
+        # self.rowconfigure(0, weight=1)
 
         # Frame principale
         main_frame = ttk.Frame(root)
@@ -60,7 +63,7 @@ class Application:
         self.canvas.draw()
 
         self.frame_count += 1 #à enelver car récup le temps depuis la simulation
-        self.after(50, self.update_graph)
+        self.root.after(50, self.update_graph)
 
     def save_graph(self):
         file_path = filedialog.asksaveasfilename(
@@ -73,3 +76,13 @@ class Application:
             print(f"Graphique sauvegardé sous : {file_path}")
 
 
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("Simulation Graphique")
+
+    # Création d'une simulation factice pour l'exemple
+    simulation = Simulation(fps=30)
+
+    app = Application(root, simulation)
+    app.update_graph()  # Démarre la mise à jour du graphique
+    root.mainloop() 
