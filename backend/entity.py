@@ -60,12 +60,12 @@ class Entity:
             self.exist = False
 
     def update(self):
-        # if not self.updating:
-        #     self.updating = True
-        #     entities_in_scope = self.scope_detection_entity()
-        #     self.update_direction(entities_in_scope)
-        #     self.update_position()
-        #     self.updating = False
+        if not self.updating:
+            self.updating = True
+            entities_in_scope = self.scope_detection_entity()
+            self.update_direction(entities_in_scope)
+            self.update_position()
+            self.updating = False
         pass
 
     def update_direction(self, entities_in_scope):

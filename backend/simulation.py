@@ -23,10 +23,8 @@ class Simulation():
 
         self.height = 0
         self.width = 0
-
+        
         self.current_time = 0
-
-        self.start_time = time.time() # doit disparaitre
 
         self.running = False
         self.initialized = False
@@ -37,7 +35,7 @@ class Simulation():
 
     def get_time(self):
         # return self.current_time
-        return (time.time() - self.start_time) / 1000
+        return (self.number_loop * self.time_step)
     
     def get_current_time(self):
         return self.current_time
@@ -116,11 +114,13 @@ class Simulation():
         
     def update(self):
         if self.running:
-            self.logger.add_frame(timestamp=self.get_time())
-            self.update_entity()
-            self.update_nouriture()   
-            self.logger.save_frame()
-            self.number_loop += 1
+            if self.last_update_time is None or (time.time() - self.last_update_time) >= self.time_step:
+                self.logger.add_frame(timestamp=self.get_time())
+                self.update_entity()
+                self.update_nouriture()   
+                self.logger.save_frame()
+                self.number_loop += 1
+                self.last_update_time = time.time()
 
 
     
