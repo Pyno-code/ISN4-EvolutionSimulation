@@ -1,10 +1,10 @@
 from backend.simulation import Simulation
-from frontend.app import Interface 
+from frontend.app import SimulationInterface 
 
 class Controller:
     def __init__(self):
         self.simulation = Simulation()
-        self.app = Interface(self.simulation)
+        self.app = SimulationInterface(self.simulation)
         self.running = True
 
     def update(self):
