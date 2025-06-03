@@ -35,6 +35,9 @@ class SimulationInterface(ttk.Window):
         # self.display = Display(self.zone_centrale, self.simulation)
 
         self.running = True
+
+        self.after(0, self.init_taille_zone_centrale) # pour avoir la taille en pixel de la zone centrale
+
     
     def update(self):
         if self.running:
@@ -306,6 +309,11 @@ class SimulationInterface(ttk.Window):
         self.interf_bas.grid_columnconfigure(0, weight=1)
         self.interf_bas.grid_columnconfigure(1, weight=1)
         self.interf_bas.grid_columnconfigure(2, weight=1)
+
+    def init_taille_zone_centrale(self):
+        self.update_idletasks()  # force un rendu à jour
+        self.largeur_bande_centrale = self.winfo_width()*0.55
+        self.hauteur_bande_centrale = self.winfo_height()*0.92
 
     
     
