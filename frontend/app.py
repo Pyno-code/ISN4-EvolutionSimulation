@@ -130,43 +130,50 @@ class SimulationInterface(ttk.Window):
         self.creer_bande_bas()
 
 
-
     def creer_bande_gauche(self):
         self.interf_gauche = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
         self.interf_gauche.place(relx=0, rely=0, relwidth=0.15, relheight=1.0)
 
+        # Configuration de la colonne pour largeur constante
+        self.interf_gauche.columnconfigure(0, weight=1, uniform="a", minsize=120)
+
+        # Titre
         ttk.Label(
             self.interf_gauche, 
             text="Contrôles", 
             font=("Segoe UI", 12, "bold"),  
             style="Card.TLabel"
-        ).grid(row=0, column=0, pady=10, sticky="nswe", padx=10)
+        ).grid(row=0, column=0, pady=10, sticky="ew", padx=10)
 
-        # Modification des commandes des boutons
+        # Boutons
         self.btn_demarrer = ttk.Button(
             self.interf_gauche, 
             text="Démarrer", 
             command=self.start_simulation,
-            bootstyle="success"
+            bootstyle="success",
+            padding=5
         )
-        self.btn_demarrer.grid(row=1, column=0, pady=5, sticky="nswe", padx=10)
+        self.btn_demarrer.grid(row=1, column=0, pady=5, padx=10, sticky="ew")
 
         self.btn_redemarrer = ttk.Button(
             self.interf_gauche, 
             text="Reset", 
             command=self.reset_simulation,
-            bootstyle="warning"
+            bootstyle="warning",
+            padding=5
         )
-        self.btn_redemarrer.grid(row=2, column=0, pady=5, sticky="nswe", padx=10)
+        self.btn_redemarrer.grid(row=2, column=0, pady=5, padx=10, sticky="ew")
 
+        # Slider de vitesse
         ttk.Label(self.interf_gauche, text="Vitesse :").grid(row=3, column=0, pady=(10, 0), sticky="w", padx=10)
-        
+
         frame_vitesse = ttk.Frame(self.interf_gauche)
-        frame_vitesse.grid(row=4, column=0, pady=5, sticky="nswe", padx=10)
-        
+        frame_vitesse.grid(row=4, column=0, pady=5, sticky="ew", padx=10)
+        frame_vitesse.columnconfigure(0, weight=1)
+
         self.label_vitesse_value = ttk.Label(frame_vitesse, text="100", width=5)
         self.label_vitesse_value.pack(side="right")
-        
+
         self.slider_vitesse = ttk.Scale(
             frame_vitesse, 
             from_=1, 
@@ -176,57 +183,62 @@ class SimulationInterface(ttk.Window):
                 self.label_vitesse_value.config(text=str(int(float(v)))),
             ]
         )
-        self.slider_vitesse.set(1)  # Valeur par défaut
+        self.slider_vitesse.set(1)
         self.slider_vitesse.pack(side="left", fill="x", expand=True)
 
-        # Modification du bouton pause/play
+        # Bouton pause
         self.bouton_pause_play = ttk.Button(
             self.interf_gauche, 
             text="Pause", 
             command=self.toggle_pause_play,
-            bootstyle="secondary"
+            bootstyle="secondary",
+            padding=5
         )
-        self.bouton_pause_play.grid(row=5, column=0, pady=10, sticky="nswe", padx=10)
+        self.bouton_pause_play.grid(row=5, column=0, pady=10, padx=10, sticky="ew")
 
-        ttk.Separator(self.interf_gauche, orient='horizontal').grid(row=6, column=0, sticky="nswe", pady=10, padx=10)
+        # Séparateur
+        ttk.Separator(self.interf_gauche, orient='horizontal').grid(row=6, column=0, sticky="ew", pady=10, padx=10)
 
+        # Info simulation
         self.info_label = ttk.Label(
             self.interf_gauche, 
             text="Informations sur la simulation",
             font=("Segoe UI", 10, "bold")
         )
-        self.info_label.grid(row=7, column=0, pady=5, sticky="nswe", padx=10)
+        self.info_label.grid(row=7, column=0, pady=5, sticky="ew", padx=10)
 
-        # Ajout des labels d'information
         self.label_survivants = ttk.Label(
             self.interf_gauche,
             text="Nb survivants: 0",
             font=("Segoe UI", 9)
         )
-        self.label_survivants.grid(row=8, column=0, pady=2, sticky="nswe", padx=10)
+        self.label_survivants.grid(row=8, column=0, pady=2, sticky="ew", padx=10)
 
         self.label_nourriture = ttk.Label(
             self.interf_gauche,
             text="Nb nourriture: 0",
             font=("Segoe UI", 9)
         )
-        self.label_nourriture.grid(row=9, column=0, pady=2, sticky="nswe", padx=10)
+        self.label_nourriture.grid(row=9, column=0, pady=2, sticky="ew", padx=10)
 
         self.info_content = ttk.Label(
             self.interf_gauche,
             text="Prêt à démarrer",
             font=("Segoe UI", 9)
         )
-        self.info_content.grid(row=10, column=0, pady=5, sticky="nswe", padx=10)
+        self.info_content.grid(row=10, column=0, pady=5, sticky="ew", padx=10)
 
+        # Bouton quitter
         self.bouton_quitter = ttk.Button(
             self.interf_gauche, 
             text="Quitter", 
             command=self.on_close,
-            bootstyle="danger"
+            bootstyle="danger",
+            padding=5
         )
-        self.bouton_quitter.grid(row=11, column=0, pady=10, sticky="nswe", padx=10)
-    # rajout  de   creer_zone_centrale, creer_bande_droite, creer_bande_bas
+        self.bouton_quitter.grid(row=11, column=0, pady=10, padx=10, sticky="ew")
+
+        # rajout  de   creer_zone_centrale, creer_bande_droite, creer_bande_bas
     def creer_zone_centrale(self):
         self.zone_centrale = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
         self.zone_centrale.place(relx=0.15, rely=0.0, relwidth=0.55, relheight=0.92)
