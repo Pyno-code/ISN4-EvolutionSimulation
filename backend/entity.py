@@ -61,6 +61,7 @@ class Entity:
         for nourriture in self.nourritures:
             distance = math.sqrt((self.x - nourriture.x) ** 2 + (self.y - nourriture.y) ** 2)
             if distance < 50:
+                self.update_energy(nourriture.energy)
                 self.update_level()
                 nourriture.delete()
 
@@ -157,7 +158,7 @@ class Entity:
 
     def update_level(self):
         if self.level < 3:
-            self.level += 1
+            self.level = min(3, int(self.energy / 7000**(1/1.5)))
             self.update_speed()
             self.detection_range = (4 - self.level) * 40
 
@@ -173,6 +174,4 @@ class Entity:
         if self.energy <= 0:
             self.delete()
         else:
-            self.level = min(3, int(self.energy / 100**(1/1.5)))
-            self.update_speed()
-            self.detection_range = (4 - self.level) * 40
+            self.level = min(3, int(self.energy / 7000**(1/1.5)))
