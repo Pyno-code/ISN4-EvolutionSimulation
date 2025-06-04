@@ -174,4 +174,4 @@ class Entity:
         if self.energy <= 0:
             self.delete()
         else:
-            self.level = min(3, int(self.energy / 7000**(1/1.5)))
+            self.level = max(1, min(3, int(self.energy / 7000**(1/1.5))))
