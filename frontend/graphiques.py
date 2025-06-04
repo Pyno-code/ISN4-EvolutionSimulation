@@ -65,7 +65,7 @@ class Graphiques():
     def update_graph(self):
 
         # Simulation du temps et des données
-        t = self.frame_count * 0.1  # Remplacer par self.simulation.get_time() dans ta version finale
+        t = self.simulation.get_time()  # Remplacer par self.simulation.get_time() dans ta version finale
         self.x_data.append(t)
         #self.x_data_2.append(t)
         self.y_data_1.append(self.simulation.get_number_entity())

@@ -14,6 +14,7 @@ class Controller:
         pass
     def run(self):
         while self.running:
+            self.running = self.app.running
             self.update()
 
 if __name__ == "__main__":

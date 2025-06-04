@@ -32,6 +32,7 @@ class Simulation():
         self.last_update_time = None
 
 
+
         # self.logger = SimulationLogger(sim_number=1)
 
 
@@ -46,11 +47,11 @@ class Simulation():
         return self.fps
     
     def get_number_entity(self):
-        # return len(self.entities)
+        return len(self.entities)
         return random.randint(0, 100)
     
     def get_number_nourriture(self):
-        # return len(self.nourritures)
+        return len(self.nourritures)
         return random.randint(0, 100)
 
     def get_map_dimensions(self):
@@ -99,7 +100,7 @@ class Simulation():
         self.entities.append(current_entity)
 
     def add_nourriture(self):
-        current_nourriture = Nourriture(id=len(self.nourritures), x=random.randint(0, self.width), y=random.randint(0, self.height))
+        current_nourriture = Nourriture(id=len(self.nourritures), width=self.width, height=self.height, x=random.randint(0, self.width), y=random.randint(0, self.height))
         self.nourritures.append(current_nourriture)
         for entity in self.entities:
             entity.set_nourritures(self.nourritures)
@@ -130,7 +131,6 @@ class Simulation():
                 self.number_loop += 1
                 self.last_update_time = time.time()
 
-
     
     def record_entities(self, entity): # permet d'enregeistrer toutes les postions dans le logger
         self.logger.add_entity(entity_id=entity.id, position=[entity.x, entity.y], level=entity.level)
@@ -144,6 +144,7 @@ class Simulation():
 
     def resume(self):
         print("Resuming started...")
+        self.last_update_time = time.time()
         self.running = True
 
     def stop(self):
