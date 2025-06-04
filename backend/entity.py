@@ -174,10 +174,4 @@ class Entity:
         if self.energy <= 0:
             self.delete()
         else:
-<<<<<<< HEAD
             self.level = min(3, int(self.energy / 7000**(1/1.5)))
-            self.update_speed()
-            self.detection_range = (4 - self.level) * 40
-=======
-            self.level = min(3, int(self.energy / 7000**(1/1.5)))
->>>>>>> energy
