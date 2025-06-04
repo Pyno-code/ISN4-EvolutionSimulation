@@ -132,6 +132,9 @@ class Graphiques():
         self.y_data_1 = []
         self.y_data_2 = []
 
+        self.update_graph()
+
+        
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Simulation Graphique")
