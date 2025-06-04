@@ -17,16 +17,15 @@ class Graphiques():
         matplotlib.use("TkAgg")
         self.simulation = simulation
         self.root = root
-        # Données
-        self.x_data = [] 
-        self.y_data_1 = []
-        self.y_data_2 = []
 
+        self.x_data = [] # liste avec le temps
+        self.y_data_1 = [] # liste avec toutes les valeurs de population
+        self.y_data_2 = [] # liste avec les valeurs de nourriture
 
         self.frame_count = 0
         self.running = False
 
-        # Graphique Évolution de la population, tout les _1
+        # Graphique Évolution de la population, tous les _1
         self.fig_1, self.ax_1 = plt.subplots(figsize=(5, 3.7))
         self.line_1, = self.ax_1.plot([], [], lw=2)
         self.ax_1.set_xlim(0, 10)
@@ -56,35 +55,33 @@ class Graphiques():
         self.save_button_2 = ttk.Button(root, text="Télécharger le graphique", command=self.save_graph)
         self.save_button_2.grid(row=3, column=0, padx=0, pady=0)
 
-    def initialisation_graphique(self): # appelé quand on appuie sur démarrer à intégrer
-        self.ax_1.set_ylim(0, self.simulation.get_number_entity())
+    def initialisation_graphique(self): # appelé quand on appuie sur démarrer à intégrer dans app.py
+        self.ax_1.set_ylim(0, self.simulation.get_number_entity()) # réajuste les échelles
         self.ax_2.set_ylim(0, self.simulation.get_number_nourriture())
 
-
-    def update_graph(self):
-
-        # Simulation du temps et des données
+    def update_graph(self): # ajout de nouvelles valeurs dans le graphique
+        
         t = self.simulation.get_time()
         self.x_data.append(t)
 
         self.y_data_1.append(self.simulation.get_number_entity())
         self.y_data_2.append(self.simulation.get_number_nourriture())
 
-        if t > 10:
-            self.ax_1.set_xlim(0, t) # l'échelle du graphique s'allonge si on est supérieur à 10 secondes
+        if t > 10: # l'échelle du graphique s'allonge si on est supérieur à 10 secondes
+            self.ax_1.set_xlim(0, t) 
             self.ax_2.set_xlim(0, t)
 
-        self.line_1.set_data(self.x_data, self.y_data_1)
+        self.line_1.set_data(self.x_data, self.y_data_1) # mise à jour des datas des graphiques
         self.canvas_1.draw()
 
         self.line_2.set_data(self.x_data, self.y_data_2)
         self.canvas_2.draw()
 
-    def save_graph(self):
+    def save_graph(self): # permet l'enregistrement des 2 graphiques depuis un seul bouton
         self.save_graph_1()
         self.save_graph_2()
 
-    def save_graph_1(self):
+    def save_graph_1(self): # enregistrement du graphique de population
         file_path = filedialog.asksaveasfilename(
             defaultextension=".png",
             initialfile="graphique_population.png",  # Nom par défaut
@@ -98,7 +95,7 @@ class Graphiques():
     def save_graph_2(self):
         file_path = filedialog.asksaveasfilename(
             defaultextension=".png",
-            initialfile="graphique_nourriture.png",  # Nom par défaut
+            initialfile="graphique_nourriture.png", 
             filetypes=[("PNG files", "*.png"), ("All files", "*.*")],
             title="Enregistrer le graphique"
         )
@@ -106,7 +103,7 @@ class Graphiques():
             self.fig_2.savefig(file_path)
             print(f"Graphique sauvegardé sous : {file_path}")
 
-    def clear_graphique(self):
+    def clear_graphique(self): # appelé lors du reeset
         self.x_data = [] 
         self.y_data_1 = []
         self.y_data_2 = []

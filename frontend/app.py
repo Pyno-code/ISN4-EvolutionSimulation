@@ -55,6 +55,7 @@ class SimulationInterface(ttk.Window):
         self.simulation.resume()
         self.info_content.config(text="Simulation démarrée.")
         self.update_info_labels()
+        self.graphiques.initialisation_graphique()
 
     def update_info_labels(self):
         nb_survivants = self.simulation.get_number_entity()
@@ -67,7 +68,6 @@ class SimulationInterface(ttk.Window):
 
     def reset_simulation(self):
         self.etat_start = False
-        
         self.bouton_pause_play.config(text = "Pause")
         self.simulation.update_number_entity(20)
         self.simulation.update_number_nourriture(20)
