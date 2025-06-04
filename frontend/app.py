@@ -98,6 +98,9 @@ class SimulationInterface(ttk.Window):
         self.slider_largeur.state(["!disabled"])
         self.slider_longueur.state(["!disabled"])
 
+        self.bouton_pause_play.config(text="Pause")
+        self.info_content.config(text="Simulation reprise.")
+
     def toggle_pause_play(self):
         if not self.etat_start:
             Messagebox.show_warning(
