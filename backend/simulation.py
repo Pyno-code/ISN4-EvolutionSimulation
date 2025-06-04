@@ -7,7 +7,7 @@ from tkinter import Canvas
 from logger import SimulationLogger
 
 class Simulation():
-    def __init__(self, fps=60):
+    def __init__(self, fps=60, max_loop=1000):
         self.entities = []
         self.nourritures = []
 
@@ -31,7 +31,7 @@ class Simulation():
 
         self.last_update_time = None
 
-        self.max_loop = 1000
+        self.max_loop = max_loop
 
         # self.logger = SimulationLogger(sim_number=1)
 

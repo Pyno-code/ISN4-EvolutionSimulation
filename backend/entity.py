@@ -30,6 +30,8 @@ class Entity:
         self.exist = True
         self.updating = False
 
+        self.energy = 100 * self.level**1.5
+
 
         self.fps = fps
         self.time_step = 1 / fps
@@ -40,15 +42,20 @@ class Entity:
         self.kv = 1
 
 
+    def get_energy(self):
+        return self.energy
+
     def check_collision(self):
         for other in self.entities:
             if other is not self:
                 distance = math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
                 if distance < 50:
                     if other.level > self.level:  # Rayon de détection de collision
+                        other.update_energy(self.energy)
                         self.delete()
                         other.update_level()
                     else:
+                        self.update_energy(other.energy)
                         other.delete()
                         self.update_level()
         for nourriture in self.nourritures:
@@ -160,3 +167,12 @@ class Entity:
     def update_fps(self, fps):
         self.fps = fps
         self.time_step = 1 / fps
+    
+    def update_energy(self, energy):
+        self.energy += energy
+        if self.energy <= 0:
+            self.delete()
+        else:
+            self.level = min(3, int(self.energy / 100**(1/1.5)))
+            self.update_speed()
+            self.detection_range = (4 - self.level) * 40
