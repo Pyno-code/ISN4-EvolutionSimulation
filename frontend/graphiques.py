@@ -56,18 +56,17 @@ class Graphiques():
         self.save_button_2 = ttk.Button(root, text="Télécharger le graphique", command=self.save_graph)
         self.save_button_2.grid(row=3, column=0, padx=0, pady=0)
 
-    def save_graph(self):
-        self.save_graph_1()
-        self.save_graph_2()
-    
+    def initialisation_graphique(self): # appelé quand on appuie sur démarrer à intégrer
+        self.ax_1.set_ylim(0, self.simulation.get_number_entity())
+        self.ax_2.set_ylim(0, self.simulation.get_number_nourriture())
 
 
     def update_graph(self):
 
         # Simulation du temps et des données
-        t = self.simulation.get_time()  # Remplacer par self.simulation.get_time() dans ta version finale
+        t = self.simulation.get_time()
         self.x_data.append(t)
-        #self.x_data_2.append(t)
+
         self.y_data_1.append(self.simulation.get_number_entity())
         self.y_data_2.append(self.simulation.get_number_nourriture())
 
@@ -81,8 +80,9 @@ class Graphiques():
         self.line_2.set_data(self.x_data, self.y_data_2)
         self.canvas_2.draw()
 
-
-        self.frame_count += 1 # à enelver car récup le temps depuis la simulation
+    def save_graph(self):
+        self.save_graph_1()
+        self.save_graph_2()
 
     def save_graph_1(self):
         file_path = filedialog.asksaveasfilename(
@@ -105,7 +105,7 @@ class Graphiques():
         if file_path:
             self.fig_2.savefig(file_path)
             print(f"Graphique sauvegardé sous : {file_path}")
-            
+
     def clear_graphique(self):
         self.x_data = [] 
         self.y_data_1 = []
