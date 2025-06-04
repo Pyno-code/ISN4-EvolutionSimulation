@@ -6,7 +6,7 @@ import tkinter as tk
 class Entity:
     
 
-    def __init__(self, id, width, height, x=0, y=0, pos_random = True, level=random.randint(1, 3)):
+    def __init__(self, id, width, height, fps, x=0, y=0, pos_random = True, level=random.randint(1, 3)):
         self.id = id
         self.level = level
         
@@ -31,7 +31,8 @@ class Entity:
         self.updating = False
 
 
-        self.time_last_update = time.time()
+        self.fps = fps
+        self.time_step = 1 / fps
         
         self.dx = 0
         self.dy = 0
@@ -117,12 +118,9 @@ class Entity:
         self.check_collision()
         self.check_position_limit()
 
-        time_delta = time.time() - self.time_last_update
-        self.time_last_update = time.time()  # On met à jour AVANT de recalculer dx/dy
 
-
-        self.dx = self.speed * time_delta * math.cos(math.radians(self.angle))
-        self.dy = self.speed * time_delta * math.sin(math.radians(self.angle))
+        self.dx = self.speed * self.time_step * math.cos(math.radians(self.angle))
+        self.dy = self.speed * self.time_step * math.sin(math.radians(self.angle))
 
 
         new_x = self.x + self.dx
@@ -153,3 +151,7 @@ class Entity:
 
     def update_speed(self):
         self.speed = (4 - self.level)*50
+    
+    def update_fps(self, fps):
+        self.fps = fps
+        self.time_step = 1 / fps
