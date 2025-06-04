@@ -21,11 +21,11 @@ class Display(tk.Canvas):
 
     def update_width(self, width):
         self.config(width=width)
-        self.simulation.width = width
-    
+        self.center_self()
+
     def update_height(self, height):
         self.config(height=height)
-        self.simulation.height = height
+        self.center_self()
 
     def draw_entity(self, entity):
         x, y = entity.x, entity.y
@@ -62,3 +62,7 @@ class Display(tk.Canvas):
         g = int(255 * (1 - (energy - 1) / 15))
         color = f'#ff{g:02x}00'
         self.create_rectangle(x - r, y - r, x + r, y + r, fill=color, outline='darkred')
+
+
+    def center_self(self):
+        self.place(relx=0.5, rely=0.5, anchor="center")

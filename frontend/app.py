@@ -207,11 +207,10 @@ class SimulationInterface(ttk.Window):
         self.zone_centrale.place(relx=0.15, rely=0.0, relwidth=0.55, relheight=0.92)
 
         self.canvas = ttk.tk.Canvas(
-            self.zone_centrale, 
-            bg="white", 
+            self.zone_centrale,
+            bg="white",
             highlightthickness=0
         )
-
         self.display = Display(self.zone_centrale, self.simulation)
 
 
