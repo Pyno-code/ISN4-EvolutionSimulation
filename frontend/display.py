@@ -10,7 +10,7 @@ class Display(tk.Canvas):
 
         self.simulation = simulation
         self.pack()
-        self.configure(bg='grey')
+        self.configure(bg='#eae9e9')
 
     def update(self):
         try:
@@ -38,11 +38,11 @@ class Display(tk.Canvas):
         r = 10 + (level - 1) * 10
         # Couleur selon le niveau
         if level == 1:
-            color = 'green'
+            color = '#569953' #green
         elif level == 2:
-            color = 'red'
+            color = '#bd1622' #red
         elif level == 3:
-            color = 'blue'
+            color = '#6355b6' #blue
         else:
             color = 'gray'
         self.create_oval(x - r, y - r, x + r, y + r, fill=color, outline='black')
