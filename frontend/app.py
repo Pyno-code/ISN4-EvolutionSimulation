@@ -74,6 +74,7 @@ class SimulationInterface(ttk.Window):
         self.slider_nb.set(20)
         self.info_content.config(text="Simulation réinitialisée. Prêt à démarrer.")
         self.update_info_labels()
+        self.graphiques.clear_graphique()
 
     def toggle_pause_play(self):
         if not self.etat_start:
