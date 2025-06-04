@@ -39,10 +39,10 @@ class SimulationInterface(ttk.Window):
     
     def update(self):
         if self.running:
-            super().update()
             self.update_info_labels()
             self.display.update()
             self.graphiques.update_graph()
+            super().update()
 
 
     def on_close(self):
@@ -69,9 +69,11 @@ class SimulationInterface(ttk.Window):
         nb_survivants = self.simulation.get_number_entity()
         nb_nourriture = self.simulation.get_number_nourriture()
         
-        # if hasattr(self, 'label_survivants'):
-        #     self.label_survivants.config(text=f"Nb survivants: {nb_survivants}")
-        #     self.label_nourriture.config(text=f"Nb nourriture: {nb_nourriture}")
+        if hasattr(self, "label_survivants"):
+            self.label_survivants.config(text=f"Nb survivants: {nb_survivants}")
+        if hasattr(self, "label_nourriture"):
+            self.label_nourriture.config(text=f"Nb nourriture: {nb_nourriture}")
+
         
 
     def reset_simulation(self):
