@@ -31,6 +31,9 @@ class Entity:
         self.updating = False
 
 
+        self.time_last_update = time.time()
+
+
     def check_collision(self):
         for other in self.entities:
             if other is not self:
@@ -122,11 +125,11 @@ class Entity:
         new_x = self.x + dx
         new_y = self.y + dy
 
-        if 20 < self.x < self.width - 20 and 20 < self.y < self.height - 20:
-            self.canvas.coords(self.circle, self.x - 10*self.level, self.y - 10*self.level, self.x + 10*self.level, self.y + 10*self.level)
-            self.canvas.coords(self.direction_line, new_x, new_y,
-                            new_x + 30 * math.cos(math.radians(self.angle)),
-                            new_y + 30 * math.sin(math.radians(self.angle)))
+        if 20 < new_x < self.width - 20 and 20 < new_y < self.height - 20:
+            # self.canvas.coords(self.circle, self.x - 10*self.level, self.y - 10*self.level, self.x + 10*self.level, self.y + 10*self.level)
+            # self.canvas.coords(self.direction_line, new_x, new_y,
+            #                 new_x + 30 * math.cos(math.radians(self.angle)),
+            #                 new_y + 30 * math.sin(math.radians(self.angle)))
             self.x += dx
             self.y += dy
 

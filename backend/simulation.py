@@ -29,6 +29,8 @@ class Simulation():
         self.running = False
         self.initialized = False
 
+        self.last_update_time = None
+
 
         # self.logger = SimulationLogger(sim_number=1)
 
@@ -72,6 +74,12 @@ class Simulation():
         self.initialize_nourritures()
         self.initialize_entities()
 
+        print(f"Simulation parameters:\n"
+            f"FPS: {self.fps}\n"
+            f"Number of Entities: {self.number_entity}\n"
+            f"Number of Nourritures: {self.number_nourriture}\n"
+            f"Map Dimensions: {self.width}x{self.height}")
+
     def initialize_time(self):
         self.current_time = 0
 
@@ -87,11 +95,11 @@ class Simulation():
             self.add_nourriture()
 
     def add_entity(self):
-        current_entity = Entity(id=self.number_entity, canvas=None, x=random.randint(0, self.width), y=random.randint(0, self.height), level=1)
+        current_entity = Entity(id=len(self.entities), width=self.width, height=self.height, x=random.randint(0, self.width), y=random.randint(0, self.height), level=1)
         self.entities.append(current_entity)
 
     def add_nourriture(self):
-        current_nourriture = Nourriture(id=self.number_nourriture, canvas=None, x=random.randint(0, self.width), y=random.randint(0, self.height))
+        current_nourriture = Nourriture(id=len(self.nourritures), x=random.randint(0, self.width), y=random.randint(0, self.height))
         self.nourritures.append(current_nourriture)
         for entity in self.entities:
             entity.set_nourritures(self.nourritures)
@@ -100,7 +108,7 @@ class Simulation():
         for entity in self.entities:
             if entity.exist:
                 entity.update()
-                self.record_entities(entity)
+                # self.record_entities(entity)
             else:
                 self.entities.remove(entity)
 
@@ -108,17 +116,17 @@ class Simulation():
         for nourriture in self.nourritures:
             if nourriture.exist:
                 nourriture.update()
-                self.record_nouritures(nourriture)
+                # self.record_nouritures(nourriture)
             else:
                 self.nourritures.remove(nourriture)
         
     def update(self):
         if self.running:
             if self.last_update_time is None or (time.time() - self.last_update_time) >= self.time_step:
-                self.logger.add_frame(timestamp=self.get_time())
+                # self.logger.add_frame(timestamp=self.get_time())
                 self.update_entity()
                 self.update_nouriture()   
-                self.logger.save_frame()
+                # self.logger.save_frame()
                 self.number_loop += 1
                 self.last_update_time = time.time()
 
@@ -132,14 +140,16 @@ class Simulation():
 
     def pause(self):
         self.running = False
+        print("Simulation paused.")
 
     def resume(self):
-        self.running = False
-        self.initialized = True
+        print("Resuming started...")
+        self.running = True
 
     def stop(self):
         self.running = False
         self.initialized = False
+        print("Simulation stopped.")
 
     def save_data(self):  
         with open('simulation_data.txt', 'w') as f:

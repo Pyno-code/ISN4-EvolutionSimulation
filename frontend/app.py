@@ -51,6 +51,7 @@ class SimulationInterface(ttk.Window):
 
     def start_simulation(self):
         self.etat_start = True
+        self.simulation.initialize()
         self.simulation.resume()
         self.info_content.config(text="Simulation démarrée.")
         self.update_info_labels()
@@ -65,7 +66,6 @@ class SimulationInterface(ttk.Window):
         
 
     def reset_simulation(self):
-        
         self.etat_start = False
         
         self.bouton_pause_play.config(text = "Pause")
