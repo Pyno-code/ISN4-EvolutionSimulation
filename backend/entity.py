@@ -158,7 +158,7 @@ class Entity:
 
     def update_level(self):
         if self.level < 3:
-            self.level = abs(max(1, min(3, int(self.energy / 7000**(1/1.5)))))
+            self.level = int(max(1, min(3, int(self.energy / 7000**(1/1.5)))))
             self.update_speed()
             self.detection_range = (4 - self.level) * 40
 
