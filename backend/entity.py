@@ -175,4 +175,3 @@ class Entity:
             self.delete()
         else:
             self.level = int(max(1, min(3, int(self.energy / 7000**(1/1.5)))))
-            print(f"Entity {self.id} energy updated: {self.energy}, level: {self.level}")
