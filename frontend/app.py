@@ -41,7 +41,8 @@ class SimulationInterface(ttk.Window):
         if self.running:
             self.update_info_labels()
             self.display.update()
-            self.graphiques.update_graph()
+            if self.simulation.running :
+                self.graphiques.update_graph()
             super().update()
 
 
