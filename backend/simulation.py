@@ -78,8 +78,9 @@ class Simulation():
         self.height = height
 
     def initialize(self):
-        # self.initialize_nourritures()
         self.initialize_entities()
+        self.initialize_nourritures()
+        self.initialized = True
 
         print(f"Simulation parameters:\n"
             f"FPS: {self.fps}\n"
@@ -100,6 +101,8 @@ class Simulation():
     def initialize_nourritures(self):
         while len(self.nourritures) < self.number_nourriture:
             self.add_nourriture()
+        for entity in self.entities:
+            entity.set_nourritures(self.nourritures)
 
     def reset(self):
         self.entities.clear()
@@ -132,10 +135,7 @@ class Simulation():
 
     def update_nouriture(self):
         for nourriture in self.nourritures:
-            if nourriture.exist:
-                nourriture.update()
-                # self.record_nouritures(nourriture)
-            else:
+            if not nourriture.exist:
                 self.nourritures.remove(nourriture)
         
     def update(self):
@@ -170,6 +170,10 @@ class Simulation():
         self.running = False
         self.initialized = False
         print("Simulation stopped.")
+
+    def total_energy(self):
+        total_energy = sum(entity.get_energy() for entity in self.entities) + sum(nourriture.get_energy() for nourriture in self.nourritures)
+        return total_energy
 
     def save_data(self):  
         with open('simulation_data.txt', 'w') as f:

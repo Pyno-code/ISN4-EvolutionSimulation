@@ -85,7 +85,7 @@ class SimulationInterface(ttk.Window):
         self.simulation.reset()
         self.simulation.initialize()
         self.simulation.update_number_entity(20)
-        # self.simulation.update_number_nourriture(20)
+        self.simulation.update_number_nourriture(20)
 
         self.slider_nb.set(20)
         self.slider_largeur.set(800)
