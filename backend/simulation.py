@@ -171,6 +171,10 @@ class Simulation():
         self.initialized = False
         print("Simulation stopped.")
 
+    def total_energy(self):
+        total_energy = sum(entity.get_energy() for entity in self.entities) + sum(nourriture.get_energy() for nourriture in self.nourritures)
+        return total_energy
+
     def save_data(self):  
         with open('simulation_data.txt', 'w') as f:
             for entry in self.data:
