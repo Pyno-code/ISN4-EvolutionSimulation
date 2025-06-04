@@ -105,7 +105,11 @@ class Graphiques():
         if file_path:
             self.fig_2.savefig(file_path)
             print(f"Graphique sauvegardé sous : {file_path}")
-    
+            
+    def clear_graphique(self):
+        self.x_data = [] 
+        self.y_data_1 = []
+        self.y_data_2 = []
 
 if __name__ == "__main__":
     root = tk.Tk()
