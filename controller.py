@@ -11,8 +11,8 @@ class Controller:
     def update(self):
         while self.simulation.last_update_time is not None and (time.time() - self.simulation.last_update_time) < self.simulation.time_step:
             pass
-        self.simulation.update()
         self.app.update()
+        self.simulation.update()
 
         pass
     def run(self):
