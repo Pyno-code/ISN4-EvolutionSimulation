@@ -56,6 +56,7 @@ class SimulationInterface(ttk.Window):
         self.info_content.config(text="Simulation démarrée.")
         self.update_info_labels()
         self.graphiques.initialisation_graphique()
+        self.graphiques.clear_graphique()
 
     def update_info_labels(self):
         nb_survivants = self.simulation.get_number_entity()
@@ -68,10 +69,16 @@ class SimulationInterface(ttk.Window):
 
     def reset_simulation(self):
         self.etat_start = False
-        self.bouton_pause_play.config(text = "Pause")
+        self.simulation.stop()
+
+        self.simulation = Simulation(fps = 60)
         self.simulation.update_number_entity(20)
         self.simulation.update_number_nourriture(20)
+
         self.slider_nb.set(20)
+        self.slider_largeur.set(800)
+        self.slider_longueur.set(600)
+        self.simulation.update_map_dimensions(800, 600)
         self.info_content.config(text="Simulation réinitialisée. Prêt à démarrer.")
         self.update_info_labels()
         self.graphiques.clear_graphique()
@@ -209,6 +216,7 @@ class SimulationInterface(ttk.Window):
             highlightthickness=0
         )
         self.display = Display(self.zone_centrale, self.simulation)
+
 
 
     def creer_bande_droite(self):
