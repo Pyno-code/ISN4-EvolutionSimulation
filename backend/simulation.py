@@ -128,13 +128,14 @@ class Simulation():
                 self.nourritures.remove(nourriture)
         
     def update(self):
-        # self.logger.add_frame(timestamp=self.get_time())  
+        if self.running:
+            # self.logger.add_frame(timestamp=self.get_time())  
 
-        self.update_entity()
-        self.update_nouriture()   
-        # self.logger.save_frame()
-        self.number_loop += 1
-        self.last_update_time = time.time()
+            self.update_entity()
+            self.update_nouriture()   
+            # self.logger.save_frame()
+            self.number_loop += 1
+            self.last_update_time = time.time()
 
     
     def record_entities(self, entity): # permet d'enregeistrer toutes les postions dans le logger
