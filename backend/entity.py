@@ -32,6 +32,9 @@ class Entity:
 
 
         self.time_last_update = time.time()
+        
+        self.dx = 0
+        self.dy = 0
 
 
     def check_collision(self):
@@ -72,8 +75,7 @@ class Entity:
         pass
 
     def update_direction(self, entities_in_scope):
-        self.angle += random.gauss(0, 15)  # Biais vers un faible changement
-        self.angle %= 360  # Garder entre 0 et 360°
+        
         
         for entity in entities_in_scope:
             dx = entity.x - self.x
@@ -95,8 +97,9 @@ class Entity:
                 attract_x -= weight * math.cos(direction_angle)
                 attract_y -= weight * math.sin(direction_angle)
         else:
+            self.angle += random.gauss(0, 15)  # Biais vers un faible changement
+            self.angle %= 360  # Garder entre 0 et 360°
             return
-
         self.angle = math.degrees(math.atan2(attract_y, attract_x)) % 360  # Nouvelle direction
 
     def check_position_limit(self):
@@ -118,20 +121,20 @@ class Entity:
         self.time_last_update = time.time()  # On met à jour AVANT de recalculer dx/dy
 
 
-        dx = self.speed * time_delta * math.cos(math.radians(self.angle))
-        dy = self.speed * time_delta * math.sin(math.radians(self.angle))
+        self.dx = self.speed * time_delta * math.cos(math.radians(self.angle))
+        self.dy = self.speed * time_delta * math.sin(math.radians(self.angle))
 
 
-        new_x = self.x + dx
-        new_y = self.y + dy
+        new_x = self.x + self.dx
+        new_y = self.y + self.dy
 
         if 20 < new_x < self.width - 20 and 20 < new_y < self.height - 20:
             # self.canvas.coords(self.circle, self.x - 10*self.level, self.y - 10*self.level, self.x + 10*self.level, self.y + 10*self.level)
             # self.canvas.coords(self.direction_line, new_x, new_y,
             #                 new_x + 30 * math.cos(math.radians(self.angle)),
             #                 new_y + 30 * math.sin(math.radians(self.angle)))
-            self.x += dx
-            self.y += dy
+            self.x += self.dx
+            self.y += self.dy
 
     def scope_detection_entity(self):
         entity_seen = []
