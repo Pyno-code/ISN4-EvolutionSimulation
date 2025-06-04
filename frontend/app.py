@@ -83,6 +83,8 @@ class SimulationInterface(ttk.Window):
         self.info_content.config(text="Simulation réinitialisée. Prêt à démarrer.")
         self.update_info_labels()
         self.graphiques.clear_graphique()
+        self.simulation.initialize_time()
+        self.slider_vitesse.set(1)
 
     def toggle_pause_play(self):
         if not self.etat_start:
@@ -153,7 +155,7 @@ class SimulationInterface(ttk.Window):
             to=20, 
             command=lambda v: [
                 self.simulation.update_speed(float(v)),
-                self.label_vitesse_value.config(text=str(int(float(v))))
+                self.label_vitesse_value.config(text=str(int(float(v)))),
             ]
         )
         self.slider_vitesse.set(1)  # Valeur par défaut
