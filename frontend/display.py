@@ -13,11 +13,15 @@ class Display(tk.Canvas):
         self.configure(bg='grey')
 
     def update(self):
-        self.delete("all")
-        for entity in self.simulation.entities:
-            self.draw_entity(entity)
-        for food in self.simulation.foods:
-            self.draw_food(food)
+        try:
+            self.delete("all")
+            for entity in self.simulation.entities:
+                self.draw_entity(entity)
+            for food in self.simulation.nourritures:
+                self.draw_food(food)
+        except tk.TclError:
+            # The widget has likely been destroyed; ignore the update
+            pass
 
     def update_width(self, width):
         self.config(width=width)

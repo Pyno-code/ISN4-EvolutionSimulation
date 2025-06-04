@@ -34,7 +34,7 @@ class SimulationInterface(ttk.Window):
 
         self.running = True
 
-        self.after(0, self.init_taille_zone_centrale) # pour avoir la taille en pixel de la zone centrale
+        # self.after(0, self.init_taille_zone_centrale) # pour avoir la taille en pixel de la zone centrale
 
     
     def update(self):
@@ -44,14 +44,10 @@ class SimulationInterface(ttk.Window):
             self.display.update()
             self.graphiques.update_graph()
 
-                
-    
-
     def on_close(self):
         print("Fermeture propre")
         self.running = False
         self.destroy()
-
 
     def start_simulation(self):
         self.etat_start = True
