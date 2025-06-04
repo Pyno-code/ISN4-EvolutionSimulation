@@ -4,6 +4,10 @@ import tkinter as tk
 class Display(tk.Canvas):
     def __init__(self, master, simulation, width=800, height=600, **kwargs):
         super().__init__(master, width=width, height=height, bg='white', **kwargs)
+
+        self.pack(expand=True, fill="both")
+
+
         self.simulation = simulation
         self.pack()
         self.configure(bg='grey')
@@ -14,6 +18,14 @@ class Display(tk.Canvas):
             self.draw_entity(entity)
         for food in self.simulation.foods:
             self.draw_food(food)
+
+    def update_width(self, width):
+        self.config(width=width)
+        self.simulation.width = width
+    
+    def update_height(self, height):
+        self.config(height=height)
+        self.simulation.height = height
 
     def draw_entity(self, entity):
         x, y = entity.x, entity.y

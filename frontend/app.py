@@ -31,8 +31,6 @@ class SimulationInterface(ttk.Window):
         self.creer_interfaces()
         self.update_info_labels()
 
-        self.graphiques = Graphiques(self.interf_droite, self.simulation)
-        # self.display = Display(self.zone_centrale, self.simulation)
 
         self.running = True
 
@@ -43,8 +41,10 @@ class SimulationInterface(ttk.Window):
         if self.running:
             super().update()
             self.update_info_labels()
-            # self.display.update()
+            self.display.update()
             self.graphiques.update_graph()
+
+                
     
 
     def on_close(self):
@@ -100,9 +100,10 @@ class SimulationInterface(ttk.Window):
 
     def creer_interfaces(self):
         self.creer_bande_gauche()
-        self.creer_zone_centrale()
         self.creer_bande_droite()
+        self.creer_zone_centrale()
         self.creer_bande_bas()
+
 
 
     def creer_bande_gauche(self):
@@ -210,41 +211,15 @@ class SimulationInterface(ttk.Window):
             bg="white", 
             highlightthickness=0
         )
-        self.canvas.pack(expand=True, fill="both")
+
+        self.display = Display(self.zone_centrale, self.simulation)
+
 
     def creer_bande_droite(self):
         self.interf_droite = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
         self.interf_droite.place(relx=0.7, rely=0, relwidth=0.3, relheight=1.0)
 
-        # ttk.Label(
-        #     self.interf_droite,
-        #     text="Graphiques en temps réel",
-        #     font=("Segoe UI", 10, "bold")
-        # ).grid(row=0, column=0, pady=10, sticky="ew")
-
-
-
-
-        # self.graph_frame1 = ttk.Frame(
-        #     self.interf_droite,
-        #     style="Graph.TFrame",
-        #     height=200
-        # )
-        # self.graph_frame1.grid(row=1, column=0, sticky="ew", padx=10, pady=5)
-
-        # self.graph_frame2 = ttk.Frame(
-        #     self.interf_droite,
-        #     style="Graph.TFrame",
-        #     height=200
-        # )
-        # self.graph_frame2.grid(row=2, column=0, sticky="ew", padx=10, pady=5)
-
-        # self.graph_frame3 = ttk.Frame(
-        #     self.interf_droite,
-        #     style="Graph.TFrame",
-        #     height=200
-        # )
-        # self.graph_frame3.grid(row=3, column=0, sticky="ew", padx=10, pady=5)
+        self.graphiques = Graphiques(self.interf_droite, self.simulation)
 
     def creer_bande_bas(self):
         self.interf_bas = ttk.Frame(self, style="Card.TFrame", borderwidth=1, relief="solid")
@@ -281,7 +256,8 @@ class SimulationInterface(ttk.Window):
             orient="horizontal",
             command=lambda val: [
                 self.simulation.update_map_dimensions(int(float(val)), self.simulation.height),
-                self.label_width_value.config(text=str(int(float(val))))
+                self.label_width_value.config(text=str(int(float(val)))),
+                self.display.update_width(int(float(val))),
             ]
         )
         self.slider_largeur.set(800)
@@ -295,11 +271,12 @@ class SimulationInterface(ttk.Window):
         self.slider_longueur = ttk.Scale(
             frame_length,
             from_=100,
-            to=1000,
+            to=900,
             orient="horizontal",
             command=lambda val: [
                 self.simulation.update_map_dimensions(self.simulation.width, int(float(val))),
-                self.label_length_value.config(text=str(int(float(val))))
+                self.label_length_value.config(text=str(int(float(val)))),
+                self.display.update_height(int(float(val)))
             ]
         )
         self.slider_longueur.set(600)
@@ -314,6 +291,7 @@ class SimulationInterface(ttk.Window):
         self.update_idletasks()  # force un rendu à jour
         self.largeur_bande_centrale = self.winfo_width()*0.55
         self.hauteur_bande_centrale = self.winfo_height()*0.92
+        print(f"Taille zone centrale: {self.largeur_bande_centrale}x{self.hauteur_bande_centrale}") 
 
     
     
