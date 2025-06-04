@@ -78,7 +78,7 @@ class Simulation():
         self.height = height
 
     def initialize(self):
-        self.initialize_nourritures()
+        # self.initialize_nourritures()
         self.initialize_entities()
 
         print(f"Simulation parameters:\n"
@@ -100,6 +100,17 @@ class Simulation():
     def initialize_nourritures(self):
         while len(self.nourritures) < self.number_nourriture:
             self.add_nourriture()
+
+    def reset(self):
+        self.entities.clear()
+        self.nourritures.clear()
+        self.running = False
+        self.initialized = False
+        self.number_loop = 0
+        self.last_update_time = None
+
+        print("Simulation reset.")
+
 
     def add_entity(self):
         current_entity = Entity(id=len(self.entities), width=self.width, height=self.height, fps=self.fps, x=random.randint(0, self.width), y=random.randint(0, self.height), level=1)

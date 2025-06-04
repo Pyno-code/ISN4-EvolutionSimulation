@@ -71,9 +71,10 @@ class SimulationInterface(ttk.Window):
         self.etat_start = False
         self.simulation.stop()
 
-        self.simulation = Simulation(fps = 60)
+        self.simulation.reset()
+        self.simulation.initialize()
         self.simulation.update_number_entity(20)
-        self.simulation.update_number_nourriture(20)
+        # self.simulation.update_number_nourriture(20)
 
         self.slider_nb.set(20)
         self.slider_largeur.set(800)
