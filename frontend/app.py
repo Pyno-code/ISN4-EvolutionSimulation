@@ -51,6 +51,9 @@ class SimulationInterface(ttk.Window):
         self.destroy()
 
     def start_simulation(self):
+        self.simulation.stop()
+        self.simulation.reset()
+
         self.etat_start = True
         self.simulation.initialize()
         self.simulation.resume()
