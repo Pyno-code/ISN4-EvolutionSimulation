@@ -2,6 +2,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import tkinter as tk
+import csv
 from tkinter import ttk
 from tkinter import filedialog
 import matplotlib
@@ -52,8 +53,8 @@ class Graphiques():
         self.canvas_widget_2 = self.canvas_2.get_tk_widget()
         self.canvas_widget_2.grid(row=2, column=0, sticky="nsew", pady=(0, 20))
 
-        self.save_button_2 = ttk.Button(root, text="Télécharger le graphique", command=self.save_graph)
-        self.save_button_2.grid(row=3, column=0, padx=0, pady=0)
+        self.save_button = ttk.Button(root, text="Télécharger les données", command=self.save_graph)
+        self.save_button.grid(row=3, column=0, padx=0, pady=0)
 
     def initialisation_graphique(self): # appelé quand on appuie sur démarrer à intégrer dans app.py
         self.ax_1.set_ylim(0, self.simulation.get_number_entity()) # réajuste les échelles
@@ -80,6 +81,7 @@ class Graphiques():
     def save_graph(self): # permet l'enregistrement des 2 graphiques depuis un seul bouton
         self.save_graph_1()
         self.save_graph_2()
+        self.save_data_csv()
 
     def save_graph_1(self): # enregistrement du graphique de population
         file_path = filedialog.asksaveasfilename(
@@ -102,6 +104,26 @@ class Graphiques():
         if file_path:
             self.fig_2.savefig(file_path)
             print(f"Graphique sauvegardé sous : {file_path}")
+    
+    def save_data_csv(self):
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            initialfile="donnees_simulation.csv",
+            filetypes=[("CSV files", "*.csv"), ("All files", "*.*")],
+            title="Enregistrer les données"
+        )
+        if file_path:
+            try:
+                with open(file_path, mode='w', newline='') as file:
+                    writer = csv.writer(file, delimiter = ';') # delimiteur ; pour l'ouverture sous excel
+                    writer.writerow(["Temps", "Population", "Nourriture"])
+                    for temps, population, nourriture in zip(self.x_data, self.y_data_1, self.y_data_2):
+                        writer.writerow([temps, population, nourriture])
+                print(f"Données sauvegardées dans : {file_path}")
+                print(self.x_data)
+            except Exception as e:
+                print(f"Erreur lors de l'enregistrement du fichier CSV : {e}")
+
 
     def clear_graphique(self): # appelé lors du reeset
         self.x_data = [] 
