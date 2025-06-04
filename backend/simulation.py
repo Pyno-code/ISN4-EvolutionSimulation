@@ -31,7 +31,7 @@ class Simulation():
 
         self.last_update_time = None
 
-
+        self.max_loop = 1000
 
         # self.logger = SimulationLogger(sim_number=1)
 
@@ -147,6 +147,8 @@ class Simulation():
             # self.logger.save_frame()
             self.number_loop += 1
             self.last_update_time = time.time()
+            if self.number_loop > self.max_loop:
+                self.stop()
 
     
     def record_entities(self, entity): # permet d'enregeistrer toutes les postions dans le logger
