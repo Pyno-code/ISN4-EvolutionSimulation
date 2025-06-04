@@ -4,7 +4,7 @@ Ce projet est une simulation dans laquelle des êtres vivants interagissent avec
 
 ## 📸 Aperçu
 
-![Aperçu de la simulation](aperçu.png)
+![Aperçu de la simulation](rendu/apercu.png)
 
 ## 🚀 Fonctionnalités
 
