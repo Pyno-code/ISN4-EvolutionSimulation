@@ -148,8 +148,8 @@ class SimulationInterface(ttk.Window):
         
         self.slider_vitesse = ttk.Scale(
             frame_vitesse, 
-            from_=10, 
-            to=500, 
+            from_=5, 
+            to=200, 
             command=lambda v: [
                 self.simulation.update_fps(float(v)),
                 self.label_vitesse_value.config(text=str(int(float(v))))
