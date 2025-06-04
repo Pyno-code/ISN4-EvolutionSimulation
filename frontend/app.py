@@ -44,6 +44,7 @@ class SimulationInterface(ttk.Window):
             self.display.update()
             self.graphiques.update_graph()
 
+
     def on_close(self):
         print("Fermeture propre")
         self.running = False
@@ -57,6 +58,9 @@ class SimulationInterface(ttk.Window):
         self.update_info_labels()
         self.graphiques.initialisation_graphique()
         self.graphiques.clear_graphique()
+        self.slider_nb.state(["disabled"])
+        self.slider_largeur.state(["disabled"])
+        self.slider_longueur.state(["disabled"])
 
     def update_info_labels(self):
         nb_survivants = self.simulation.get_number_entity()
@@ -68,6 +72,7 @@ class SimulationInterface(ttk.Window):
         
 
     def reset_simulation(self):
+
         self.etat_start = False
         self.simulation.stop()
 
@@ -83,6 +88,10 @@ class SimulationInterface(ttk.Window):
         self.info_content.config(text="Simulation réinitialisée. Prêt à démarrer.")
         self.update_info_labels()
         self.graphiques.clear_graphique()
+
+        self.slider_nb.state(["!disabled"])
+        self.slider_largeur.state(["!disabled"])
+        self.slider_longueur.state(["!disabled"])
 
     def toggle_pause_play(self):
         if not self.etat_start:
