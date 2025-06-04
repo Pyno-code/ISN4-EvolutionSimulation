@@ -47,14 +47,17 @@ class Graphiques():
         # Intégration des graphiques dans Tkinter
         self.canvas_1 = FigureCanvasTkAgg(self.fig_1, master=root)
         self.canvas_widget_1 = self.canvas_1.get_tk_widget()
-        self.canvas_widget_1.grid(row=1, column=0, sticky="nsew", pady=(0, 0))
+        self.canvas_widget_1.grid(row=1, column=0,columnspan=2, sticky="nsew", pady=(0, 0))
 
         self.canvas_2 = FigureCanvasTkAgg(self.fig_2, master=root)
         self.canvas_widget_2 = self.canvas_2.get_tk_widget()
-        self.canvas_widget_2.grid(row=2, column=0, sticky="nsew", pady=(0, 20))
+        self.canvas_widget_2.grid(row=2, column=0, columnspan=2, sticky="nsew", pady=(0, 20))
 
-        self.save_button = ttk.Button(root, text="Télécharger les données", command=self.save_graph)
-        self.save_button.grid(row=3, column=0, padx=0, pady=0)
+        self.save_button_graph = ttk.Button(root, text="Télécharger les graphiques", command=self.save_graph)
+        self.save_button_graph.grid(row=3, column=0, padx=0, pady=0)
+
+        self.save_button_donnees = ttk.Button(root, text="Télécharger les données", command=self.save_data_csv)
+        self.save_button_donnees.grid(row=3, column=1, padx=0, pady=0)
 
     def initialisation_graphique(self): # appelé quand on appuie sur démarrer à intégrer dans app.py
         self.ax_1.set_ylim(0, self.simulation.get_number_entity()) # réajuste les échelles
@@ -81,7 +84,6 @@ class Graphiques():
     def save_graph(self): # permet l'enregistrement des 2 graphiques depuis un seul bouton
         self.save_graph_1()
         self.save_graph_2()
-        self.save_data_csv()
 
     def save_graph_1(self): # enregistrement du graphique de population
         file_path = filedialog.asksaveasfilename(
