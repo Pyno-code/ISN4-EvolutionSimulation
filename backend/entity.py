@@ -37,6 +37,8 @@ class Entity:
         self.dx = 0
         self.dy = 0
 
+        self.kv = 1
+
 
     def check_collision(self):
         for other in self.entities:
@@ -119,8 +121,8 @@ class Entity:
         self.check_position_limit()
 
 
-        self.dx = self.speed * self.time_step * math.cos(math.radians(self.angle))
-        self.dy = self.speed * self.time_step * math.sin(math.radians(self.angle))
+        self.dx = self.speed * self.time_step * self.kv * math.cos(math.radians(self.angle))
+        self.dy = self.speed * self.time_step * self.kv * math.sin(math.radians(self.angle))
 
 
         new_x = self.x + self.dx
@@ -142,6 +144,9 @@ class Entity:
                 if distance < self.detection_range:
                     entity_seen.append(other)
         return entity_seen
+
+    def update_kv(self, kv):
+        self.kv = kv
 
     def update_level(self):
         if self.level < 3:

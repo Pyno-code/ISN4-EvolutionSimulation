@@ -1,5 +1,6 @@
 from backend.simulation import Simulation
 from frontend.app import SimulationInterface 
+import time
 
 class Controller:
     def __init__(self):
@@ -8,6 +9,8 @@ class Controller:
         self.running = True
 
     def update(self):
+        while self.simulation.last_update_time is not None and (time.time() - self.simulation.last_update_time) < self.simulation.time_step:
+            pass
         self.simulation.update()
         self.app.update()
 

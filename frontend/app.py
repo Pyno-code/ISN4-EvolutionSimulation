@@ -148,14 +148,14 @@ class SimulationInterface(ttk.Window):
         
         self.slider_vitesse = ttk.Scale(
             frame_vitesse, 
-            from_=5, 
-            to=200, 
+            from_=1, 
+            to=20, 
             command=lambda v: [
-                self.simulation.update_fps(float(v)),
+                self.simulation.update_speed(float(v)),
                 self.label_vitesse_value.config(text=str(int(float(v))))
             ]
         )
-        self.slider_vitesse.set(100)
+        self.slider_vitesse.set(1)  # Valeur par défaut
         self.slider_vitesse.pack(side="left", fill="x", expand=True)
 
         # Modification du bouton pause/play

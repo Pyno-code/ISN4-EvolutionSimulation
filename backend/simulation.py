@@ -63,6 +63,10 @@ class Simulation():
         for entity in self.entities:
             entity.update_fps(fps)
     
+    def update_speed(self, speed):
+        for entity in self.entities:
+            entity.update_kv(speed)
+    
     def update_number_entity(self, number):
         self.number_entity = number
 
@@ -124,14 +128,13 @@ class Simulation():
                 self.nourritures.remove(nourriture)
         
     def update(self):
-        if self.last_update_time is None or (time.time() - self.last_update_time) >= self.time_step:
-                # self.logger.add_frame(timestamp=self.get_time())
-                
-            self.update_entity()
-            self.update_nouriture()   
-            # self.logger.save_frame()
-            self.number_loop += 1
-            self.last_update_time = time.time()
+        # self.logger.add_frame(timestamp=self.get_time())  
+
+        self.update_entity()
+        self.update_nouriture()   
+        # self.logger.save_frame()
+        self.number_loop += 1
+        self.last_update_time = time.time()
 
     
     def record_entities(self, entity): # permet d'enregeistrer toutes les postions dans le logger
