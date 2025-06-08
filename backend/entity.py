@@ -88,8 +88,6 @@ class Entity:
 
     def update_direction(self, entities_in_scope, nourritures_in_scope):
         attracted = False
-        print("----------------------")
-
         attract_x, attract_y = 0, 0
         
         for nourriture in nourritures_in_scope:
@@ -123,15 +121,13 @@ class Entity:
 
         
 
-        if not attracted:
-            print("non attiré")
-
+        
+        if attracted and (attract_x != 0 or attract_y != 0):
+            self.angle = math.degrees(math.atan2(attract_y, attract_x))
+        else:
             self.angle += random.gauss(0, 15)
-            self.angle %= 360
-
-            print(self.angle)
-        print("----------------------")
-
+        
+        self.angle %= 360
 
 
 

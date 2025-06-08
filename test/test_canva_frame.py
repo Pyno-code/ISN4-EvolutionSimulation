@@ -1,6 +1,6 @@
 import tkinter as tk
 import random
-from display import Display
+from frontend.display import Display
 
 # Classes factices pour tester l'affichage
 class FakeEntity:
@@ -29,7 +29,7 @@ class FakeSimulation:
                 y=random.randint(50, height - 50),
                 dx=random.uniform(-1, 1),
                 dy=random.uniform(-1, 1),
-                level=random.randint(1, 4)
+                level=random.randint(1, 3)
             ) for _ in range(n_entities)
         ]
         self.foods = [
