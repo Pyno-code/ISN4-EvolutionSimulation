@@ -80,38 +80,60 @@ class Entity:
         if not self.updating:
             self.updating = True
             entities_in_scope = self.scope_detection_entity()
-            self.update_direction(entities_in_scope)
+            nourritures_in_scope = self.scope_detection_nourriture()
+            self.update_direction(entities_in_scope, nourritures_in_scope)
             self.update_position()
             self.updating = False
         pass
 
-    def update_direction(self, entities_in_scope):
+    def update_direction(self, entities_in_scope, nourritures_in_scope):
+        attracted = False
+        print("----------------------")
+
+        attract_x, attract_y = 0, 0
         
-        
+        for nourriture in nourritures_in_scope:
+            attracted = True
+
+            dx = nourriture.x - self.x
+            dy = nourriture.y - self.y
+            distance = math.sqrt(dx**2 + dy**2) + 1e-6
+            direction_angle = math.atan2(dy, dx)
+            weight = 1 / (distance**2)
+
+            # Attirance proportionnelle à la distance
+            attract_x += weight * math.cos(direction_angle)
+            attract_y += weight * math.sin(direction_angle)
+
+
         for entity in entities_in_scope:
             dx = entity.x - self.x
             dy = entity.y - self.y
             distance = math.sqrt(dx**2 + dy**2) + 1e-6  # Évite la division par zéro
-            direction_angle = math.degrees(math.atan2(dy, dx))
+            direction_angle = math.atan2(dy, dx)
 
             level_difference = self.level - entity.level
-            weight = abs(level_difference) / (distance**2)  # Poids basé sur la différence de niveau et la distance
+            weight = level_difference / (distance**2)  # Poids basé sur la différence de niveau et la distance
             
-            attract_x, attract_y = 0, 0
+            attract_x += weight * math.cos(direction_angle)
+            attract_y += weight * math.sin(direction_angle)
 
-            if level_difference > 0:
-                # Attirance proportionnelle à la différence de niveau
-                attract_x += weight * math.cos(direction_angle)
-                attract_y += weight * math.sin(direction_angle)
-            elif level_difference < 0:
-                # Répulsion proportionnelle à la différence de niveau
-                attract_x -= weight * math.cos(direction_angle)
-                attract_y -= weight * math.sin(direction_angle)
-        else:
-            self.angle += random.gauss(0, 15)  # Biais vers un faible changement
-            self.angle %= 360  # Garder entre 0 et 360°
-            return
-        self.angle = math.degrees(math.atan2(attract_y, attract_x)) % 360  # Nouvelle direction
+            if level_difference != 0:
+                attracted = True
+
+        
+
+        if not attracted:
+            print("non attiré")
+
+            self.angle += random.gauss(0, 15)
+            self.angle %= 360
+
+            print(self.angle)
+        print("----------------------")
+
+
+
 
     def check_position_limit(self):
         if self.x > self.width - 20:
@@ -152,6 +174,14 @@ class Entity:
                 if distance < self.detection_range:
                     entity_seen.append(other)
         return entity_seen
+    
+    def scope_detection_nourriture(self):
+        nourriture_seen = []
+        for nourriture in self.nourritures:
+            distance = math.sqrt((self.x - nourriture.x) ** 2 + (self.y - nourriture.y) ** 2)
+            if distance < self.detection_range:
+                nourriture_seen.append(nourriture)
+        return nourriture_seen
 
     def update_kv(self, kv):
         self.kv = kv
