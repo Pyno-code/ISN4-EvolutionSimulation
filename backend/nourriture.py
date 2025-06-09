@@ -26,14 +26,17 @@ class Nourriture:
 
 
     def delete(self):
+        """
+        Supprime l'objet en le marquant comme inexistant.
+
+        Cette méthode vérifie si l'objet existe actuellement (self.exist est True).
+        Si c'est le cas, elle définit self.exist à False pour indiquer que l'objet
+        a été supprimé ou désactivé dans le contexte de la simulation.
+
+        Returns:
+            None
+        """
         if self.exist:
             self.exist = False
     
     
-
-    # def make_color(self):
-    #     return (90 + int((255-90) * (self.energy/15)**1.7), 255, 93)
-    
-    # def make_canvas_color(self):
-    #     return "#%02x%02x%02x" % self.color
-    # import this in canva frame
